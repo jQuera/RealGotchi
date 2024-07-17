@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,43 +13,49 @@ class HomePage extends StatelessWidget {
             child: Container(
               color: Colors.blue,
               child: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
-                    Text('Donita Barra'),
-                    Placeholder(
-                      fallbackHeight: 100,
-                      fallbackWidth: 200,
+                    const Positioned(
+                      top: 30,
+                      child: Text(
+                        'Donita Barra',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.red,
+                      width: double.infinity,
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        'assets/prototype_images/portrait_cat.jpg',
+                        fit: BoxFit.contain,
+                        
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          Expanded(
-            child: Container(
-              color: Colors.red,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              color: Colors.green,
-              child: const Row(
-                children: [
-                  Status(
-                    value: 50,
-                    color: Colors.red,
-                  ),
-                  Status(
-                    value: 75,
-                    color: Colors.amber,
-                  ),
-                  Status(
-                    value: 25,
-                    color: Colors.brown,
-                  ),
-                ],
-              ),
+          Container(
+            color: Colors.green,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: const Column(
+              children: [
+                Status(
+                  value: 50,
+                  color: Colors.red,
+                ),
+                Status(
+                  value: 75,
+                  color: Colors.amber,
+                ),
+                Status(
+                  value: 25,
+                  color: Colors.brown,
+                ),
+              ],
             ),
           ),
         ],
