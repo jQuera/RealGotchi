@@ -75,12 +75,16 @@ class HomePage extends StatelessWidget {
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                //TODO: Abrir vista que muestra estado de mascota, un resumen de las tareas realizadas y pendientes
                 BottomButtom(
                   icon: Icons.health_and_safety_rounded,
                 ),
+                //TODO: Te devuelve a la vista general de mascota
                 BottomButtom(
                   icon: Icons.pets_rounded,
                 ),
+                //TODO: Abrir vista que muestra tareas del dia, agrupadas por tipo
+                //(alimentacion, salud y bienestar, higiene, actividad fisica, comportamiento)
                 BottomButtom(
                   icon: Icons.pending_actions_rounded,
                 ),
