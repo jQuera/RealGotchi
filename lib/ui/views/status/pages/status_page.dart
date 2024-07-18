@@ -55,9 +55,21 @@ class StatusMonitor extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 18),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                color: Colors.deepPurple.shade300,
+                child: Text('$quantityCompleted/10 Tareas completadas',
+                    style: const TextStyle(fontSize: 12)),
+              ),
+            ],
           ),
           Container(
             decoration: BoxDecoration(
@@ -80,10 +92,6 @@ class StatusMonitor extends StatelessWidget {
                 },
               ),
             ),
-          ),
-          Container(
-            color: Colors.deepPurple.shade300,
-            child: Text('$quantityCompleted/10 Tareas completadas'),
           ),
         ],
       ),
