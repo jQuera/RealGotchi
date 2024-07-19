@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/views/home/home_page.dart';
 import 'package:myapp/ui/views/status/pages/status_page.dart';
+import 'package:myapp/ui/views/tasks/pages/tasks_page.dart';
 import 'package:myapp/ui/widgets/main_bottom_buttom.dart';
 
 class MainBottomBar extends StatelessWidget {
@@ -51,7 +52,7 @@ class MainBottomBar extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StatusPage(),
+                  builder: (context) => const TasksPage(),
                 ),
               );
             },

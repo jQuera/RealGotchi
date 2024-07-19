@@ -21,8 +21,8 @@ class BottomButtom extends StatelessWidget {
       //   shape: BoxShape.circle,
       // ),
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(10), elevation: 0,
-        // backgroundColor: isCurrent ? Colors.orange : null,
+        padding: const EdgeInsets.all(10),
+        elevation: 0,
         disabledBackgroundColor: Colors.orange,
       ),
       child: Icon(
