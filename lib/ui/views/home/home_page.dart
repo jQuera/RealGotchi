@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/ui/views/status/pages/status_page.dart';
+
+import '../../widgets/main_bottom_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -70,80 +71,8 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            color: Colors.amber,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                BottomButtom(
-                  icon: Icons.health_and_safety_rounded,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StatusPage(),
-                      ),
-                    );
-                  },
-                ),
-                //TODO: Te devuelve a la vista general de mascota
-                BottomButtom(
-                  icon: Icons.pets_rounded,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StatusPage(),
-                      ),
-                    );
-                  },
-                ),
-                //TODO: Abrir vista que muestra tareas del dia, agrupadas por tipo
-                //(alimentacion, salud y bienestar, higiene, actividad fisica, comportamiento)
-                BottomButtom(
-                  icon: Icons.pending_actions_rounded,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const StatusPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
+          const MainBottomBar(current: 1)
         ],
-      ),
-    );
-  }
-}
-
-class BottomButtom extends StatelessWidget {
-  const BottomButtom({
-    super.key,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final IconData icon;
-  final VoidCallback onPressed;
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => onPressed(),
-      // decoration: const BoxDecoration(
-      //   color: Colors.orange,
-      //   shape: BoxShape.circle,
-      // ),
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(10),
-      ),
-      child: Icon(
-        icon,
-        size: 35,
       ),
     );
   }

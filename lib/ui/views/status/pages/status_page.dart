@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/widgets/main_bottom_bar.dart';
 //TODO: Vista que muestra estado de mascota, un resumen de las tareas realizadas y pendientes
 
 class StatusPage extends StatelessWidget {
@@ -10,26 +11,33 @@ class StatusPage extends StatelessWidget {
       backgroundColor: Colors.deepOrangeAccent,
       appBar: AppBar(
         title: const Text("Status Page"),
+        automaticallyImplyLeading: false,
       ),
       body: const Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          StatusMonitor(
-            title: "Felicidad",
-            quantityCompleted: 7,
-            statusColor: Colors.orange,
+          Column(
+            children: [
+              StatusMonitor(
+                title: "Felicidad",
+                quantityCompleted: 7,
+                statusColor: Colors.orange,
+              ),
+              SizedBox(height: 15),
+              StatusMonitor(
+                title: "Higiene",
+                quantityCompleted: 3,
+                statusColor: Colors.green,
+              ),
+              SizedBox(height: 15),
+              StatusMonitor(
+                title: "Alimentacion",
+                quantityCompleted: 10,
+                statusColor: Colors.yellow,
+              ),
+            ],
           ),
-          SizedBox(height: 15),
-          StatusMonitor(
-            title: "Higiene",
-            quantityCompleted: 3,
-            statusColor: Colors.green,
-          ),
-          SizedBox(height: 15),
-          StatusMonitor(
-            title: "Alimentacion",
-            quantityCompleted: 10,
-            statusColor: Colors.yellow,
-          )
+          MainBottomBar(current: 0)
         ],
       ),
     );
@@ -51,7 +59,7 @@ class StatusMonitor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.deepPurple.shade300,
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
