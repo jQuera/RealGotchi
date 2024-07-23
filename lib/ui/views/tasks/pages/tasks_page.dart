@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/views/tasks/modal/create_task_bottom_modal.dart';
 import 'package:myapp/ui/widgets/main_bottom_bar.dart';
 
 class TasksPage extends StatelessWidget {
@@ -12,7 +13,14 @@ class TasksPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return CreateTaskBottomModal();
+                },
+              );
+            },
             icon: const Icon(Icons.add_circle_outline_rounded),
           ),
         ],
