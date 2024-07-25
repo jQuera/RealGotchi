@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:o3d/o3d.dart';
 import '../../widgets/main_bottom_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,6 +7,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final O3DController controller = O3DController()..play();
     return Scaffold(
       body: Column(
         children: [
@@ -18,14 +19,20 @@ class HomePage extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
+                    color: Colors.red,
                     alignment: Alignment.bottomCenter,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          'assets/prototype_images/portrait_cat.jpg',
-                        ),
-                        fit: BoxFit.fitWidth,
-                      ),
+                    child: O3D.asset(
+                      src: 'assets/3d_models/toon_cat_free.glb',
+                      controller: controller,
+                      backgroundColor: Colors.purple,
+                      ar: false,
+                      autoPlay: true,
+                      autoRotate: false,
+                      xrEnvironment: false,
+                      touchAction: TouchAction.none,
+                      cameraControls: true,
+                      disablePan: true,
+                      disableZoom: true,
                     ),
                   ),
                   const Positioned(
