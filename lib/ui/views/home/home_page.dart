@@ -1,115 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:o3d/o3d.dart';
-import '../../widgets/main_bottom_bar.dart';
+import 'package:myapp/ui/views/home/controller/home_controller.dart';
+import 'package:myapp/ui/views/home/widgets/pet_view_bar.dart';
+import 'package:myapp/ui/views/home/widgets/status/pages/status_bar.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/pages/tasks_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final O3DController controller = O3DController()..play();
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              color: Colors.blue,
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    color: Colors.red,
-                    alignment: Alignment.bottomCenter,
-                    child: O3D.asset(
-                      src: 'assets/3d_models/toon_cat_free.glb',
-                      controller: controller,
-                      backgroundColor: Colors.purple,
-                      ar: false,
-                      autoPlay: true,
-                      autoRotate: false,
-                      xrEnvironment: false,
-                      touchAction: TouchAction.none,
-                      cameraControls: true,
-                      disablePan: true,
-                      disableZoom: true,
-                    ),
+      bottomNavigationBar: StreamBuilder<int>(
+          stream: HomeController.instance.currentPageStream.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const SizedBox.shrink();
+            return NavigationBar(
+              onDestinationSelected: (value) {
+                HomeController.instance.changeCurrentPage(value);
+              },
+              selectedIndex: snapshot.data!,
+              backgroundColor: Colors.amber,
+              destinations: const <Widget>[
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.health_and_safety_rounded),
+                  icon: Badge(child: Icon(Icons.health_and_safety_rounded)),
+                  label: 'Status',
+                ),
+                NavigationDestination(
+                  selectedIcon: Icon(
+                    Icons.pets_rounded,
                   ),
-                  const Positioned(
-                    top: 30,
-                    child: SafeArea(
-                      child: Text(
-                        'Donita Barra',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                  icon: Icon(
+                    Icons.pets_rounded,
                   ),
-                  Positioned(
-                    bottom: 10,
-                    left: 24,
-                    child: Container(
-                      color: Colors.green,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      child: const Column(
-                        children: [
-                          Status(
-                            value: 50,
-                            color: Colors.red,
-                          ),
-                          Status(
-                            value: 75,
-                            color: Colors.amber,
-                          ),
-                          Status(
-                            value: 25,
-                            color: Colors.brown,
-                          ),
-                        ],
-                      ),
-                    ),
+                  label: 'Home',
+                ),
+                NavigationDestination(
+                  icon: Badge(
+                    label: Text('2'),
+                    child: Icon(Icons.pending_actions_rounded),
                   ),
-                ],
-              ),
-            ),
-          ),
-          const MainBottomBar(current: 1)
-        ],
-      ),
-    );
-  }
-}
-
-class Status extends StatelessWidget {
-  const Status({
-    super.key,
-    required this.value,
-    required this.color,
-  });
-
-  final double value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      width: 60,
-      height: 60,
-      alignment: Alignment.bottomCenter,
-      child: FractionallySizedBox(
-        heightFactor: value / 100,
-        child: Container(
-          color: color,
-        ),
-      ),
+                  label: 'Tareas',
+                ),
+              ],
+            );
+          }),
+      body: StreamBuilder<int>(
+          stream: HomeController.instance.currentPageStream.stream,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const SizedBox.shrink();
+            return <Widget>[
+              const StatusBar(),
+              const PetViewBar(),
+              const TasksBar(),
+            ][snapshot.data!];
+          }),
     );
   }
 }

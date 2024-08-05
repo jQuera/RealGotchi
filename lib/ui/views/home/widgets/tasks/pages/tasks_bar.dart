@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/ui/views/tasks/modal/create_task_bottom_modal.dart';
-import 'package:myapp/ui/widgets/main_bottom_bar.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/modal/create_task_bottom_modal.dart';
 
-class TasksPage extends StatelessWidget {
-  const TasksPage({super.key});
+class TasksBar extends StatelessWidget {
+  const TasksBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class TasksPage extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 builder: (context) {
-                  return CreateTaskBottomModal();
+                  return const CreateTaskBottomModal();
                 },
               );
             },
@@ -79,7 +78,6 @@ class TasksPage extends StatelessWidget {
               ],
             ),
           ),
-          MainBottomBar(current: 2),
         ],
       ),
     );

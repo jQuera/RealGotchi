@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/ui/widgets/main_bottom_bar.dart';
 //TODO: Vista que muestra estado de mascota, un resumen de las tareas realizadas y pendientes
 
-class StatusPage extends StatelessWidget {
-  const StatusPage({super.key});
+class StatusBar extends StatelessWidget {
+  const StatusBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class StatusPage extends StatelessWidget {
               ),
             ],
           ),
-          MainBottomBar(current: 0)
         ],
       ),
     );
