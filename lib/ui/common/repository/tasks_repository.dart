@@ -7,7 +7,6 @@ class TasksRepository {
 
   //crear un CRUD de tasks
 
-
   Future<bool> createTask(Task task) {
     try {
       _tasks.add(task);
@@ -25,10 +24,6 @@ class TasksRepository {
     }
   }
 
-  Future<List<Task>> getTasksByPeriodicity(String periodicity) {
-    return Future.value(_tasks);
-  }
-
   Future<bool> updateTask(Task task) {
     try {
       _tasks.removeWhere((element) => element.title == task.title);
@@ -38,7 +33,7 @@ class TasksRepository {
       return Future.value(false);
     }
   }
-  
+
   Future<bool> deleteTask(Task task) {
     try {
       _tasks.removeWhere((element) => element.title == task.title);
@@ -47,7 +42,6 @@ class TasksRepository {
       return Future.value(false);
     }
   }
-
 }
 
 class Task {
@@ -64,4 +58,11 @@ class Task {
     required this.hour,
     required this.periodicity,
   });
+}
+
+enum TASKTYPE {
+  alimentacion,
+  higiene,
+  salud,
+  entrenenimiento,
 }
