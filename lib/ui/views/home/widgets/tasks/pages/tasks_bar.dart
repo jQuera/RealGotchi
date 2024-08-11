@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
-import 'package:myapp/ui/views/home/widgets/tasks/modal/create_task_bottom_modal.dart';
+import 'package:myapp/ui/views/home/controller/home_controller.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/pages/create_task_page.dart';
 
 class TasksBar extends StatelessWidget {
   const TasksBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = HomeController.instance;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mis Tareas"),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return const CreateTaskBottomModal();
-                },
-              );
+            onPressed: () async {
+              try {
+                CreateTaskController.instance.init();
+                Task? newTask = await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return const CreateTaskPage();
+                }));
+                if (newTask == null) {
+                  print("No se creo la tarea");
+                  return;
+                }
+                controller.tasksRepository.createTask(newTask);
+              } catch (e) {
+                print(e);
+              }
             },
             icon: const Icon(Icons.add_circle_outline_rounded),
           ),

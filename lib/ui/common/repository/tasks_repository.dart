@@ -85,8 +85,6 @@ class TasksRepository {
       case TaskType.entrenenimiento:
         _tasksEntrenenimientoStream.add(_tasks.where((element) => element.type == TaskType.entrenenimiento).toList());
         break;
-      case TaskType.all:
-        _tasksStream.add(_tasks);
     }
   }
 }
@@ -95,7 +93,7 @@ class Task {
   String title;
   String description;
   String hour;
-  String periodicity;
+  TaskFrequency frequency;
   bool isCompleted;
   TaskType type;
 
@@ -104,15 +102,23 @@ class Task {
     required this.description,
     required this.isCompleted,
     required this.hour,
-    required this.periodicity,
+    required this.frequency,
     required this.type,
   });
 }
 
 enum TaskType {
-  all,
   alimentacion,
   higiene,
   salud,
   entrenenimiento,
+}
+
+enum TaskFrequency {
+  unica,
+  diaria,
+  diaPorMedio,
+  cadaDosDias,
+  semanal,
+  mensual,
 }
