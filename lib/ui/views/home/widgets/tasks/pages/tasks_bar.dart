@@ -29,52 +29,50 @@ class TasksBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
+            SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    StreamBuilder<List<Task>>(
-                        stream: TasksRepository.instance.tasksSaludStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) return const SizedBox.shrink();
-                          return TasksContainer(
-                            categoryTitle: TaskType.salud.name,
-                            tasks: snapshot.data!,
-                          );
-                        }),
-                    const SizedBox(height: 15),
-                    StreamBuilder(
-                        stream: TasksRepository.instance.tasksAlimentacionStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) return const SizedBox.shrink();
-                          return TasksContainer(
-                            categoryTitle: TaskType.alimentacion.name,
-                            tasks: snapshot.data!,
-                          );
-                        }),
-                    const SizedBox(height: 15),
-                    StreamBuilder(
-                        stream: TasksRepository.instance.tasksHigieneStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) return const SizedBox.shrink();
-                          return TasksContainer(
-                            categoryTitle: TaskType.higiene.name,
-                            tasks: snapshot.data!,
-                          );
-                        }),
-                    const SizedBox(height: 15),
-                    StreamBuilder(
-                        stream: TasksRepository.instance.tasksEntrenenimientoStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) return const SizedBox.shrink();
-                          return TasksContainer(
-                            categoryTitle: TaskType.entrenenimiento.name,
-                            tasks: snapshot.data!,
-                          );
-                        }),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  StreamBuilder<List<Task>>(
+                      stream: TasksRepository.instance.tasksSaludStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.salud.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksAlimentacionStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.alimentacion.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksHigieneStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.higiene.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksEntrenenimientoStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.entrenenimiento.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                ],
               ),
             ),
           ],
@@ -131,8 +129,9 @@ class TasksContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.lightBlue.shade300,
+        border: Border.all(color: Colors.grey),
       ),
+      padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +141,11 @@ class TasksContainer extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           tasks.isEmpty
-              ? const Text("Todavia no has asignado tareas")
+              ? const Row(
+                  children: [
+                    Text("Todavia no has asignado tareas"),
+                  ],
+                )
               : ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
