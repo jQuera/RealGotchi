@@ -118,7 +118,7 @@ enum TaskFrequency {
   unica,
   diaria,
   diaPorMedio,
-  cadaDosDias,
+  cadaTresDias,
   semanal,
   mensual,
 }
