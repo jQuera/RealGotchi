@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: StreamBuilder<int>(
-          stream: HomeController.instance.currentPageStream.stream,
+          stream: HomeController.instance.currentPageStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const SizedBox.shrink();
             return NavigationBar(
@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
             );
           }),
       body: StreamBuilder<int>(
-          stream: HomeController.instance.currentPageStream.stream,
+          stream: HomeController.instance.currentPageStream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const SizedBox.shrink();
             return <Widget>[
