@@ -13,6 +13,10 @@ class CreateTaskController {
   final StreamController<TaskType> _taskTypeSelectedStream = BehaviorSubject.seeded(TaskType.salud);
   Stream<TaskType> get taskTypeSelectedStream => _taskTypeSelectedStream.stream;
 
+  TaskFrequency taskFrequencySelected = TaskFrequency.unica;
+  final StreamController<TaskFrequency> _taskFrequencySelectedStream = BehaviorSubject.seeded(TaskFrequency.unica);
+  Stream<TaskFrequency> get taskFrequencySelectedStream => _taskFrequencySelectedStream.stream;
+
   void init() {
     clear();
   }
