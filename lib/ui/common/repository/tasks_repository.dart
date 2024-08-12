@@ -108,10 +108,13 @@ class Task {
 }
 
 enum TaskType {
-  alimentacion,
-  higiene,
-  salud,
-  entrenenimiento,
+  alimentacion(name: "Alimentación"),
+  higiene(name: "Higiene"),
+  salud(name: "Salud"),
+  entrenenimiento(name: "Entrenenimiento");
+
+  final String name;
+  const TaskType({required this.name});
 }
 
 enum TaskFrequency {
