@@ -68,28 +68,25 @@ class CreateTaskPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Repeticion"),
-                    GestureDetector(
-                      onTap: () async {
-                        TimeOfDay? selectedTime = await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                        );
-                        if (selectedTime == null) {
-                          return;
-                        }
-
-                        // TODO: guardar el tiempo en el controller
-                        print(selectedTime.toString());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: const Text("Cada 2 dias"),
-                      ),
-                    ),
+                    const Text("Repetición"),
+                    StreamBuilder<TaskFrequency>(
+                        stream: controller.taskFrequencySelectedStream,
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) return const SizedBox.shrink();
+                          return DropdownButton<TaskFrequency>(
+                            value: snapshot.data,
+                            items: TaskFrequency.values.map((e) {
+                              return DropdownMenuItem(
+                                value: e,
+                                child: Text(e.descripcion),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value == null) return;
+                              controller.changeTaskFrequency(value);
+                            },
+                          );
+                        }),
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -102,7 +99,6 @@ class CreateTaskPage extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) return const SizedBox.shrink();
                           return DropdownButton<TaskType>(
-                            elevation: 1,
                             value: snapshot.data,
                             items: TaskType.values.map((e) {
                               return DropdownMenuItem(
