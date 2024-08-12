@@ -1,0 +1,10 @@
+            - name: flutter-build-android
+  # You may pin to the exact commit or the version.
+  # uses: cedvdb/action-flutter-build-android@4e602e4781599494d40c2a2dd451818947402abd
+  uses: cedvdb/action-flutter-build-android@v1
+  with:
+    # The root directory of the flutter app within this repository
+    working-directory: # optional, default is ./
+    # The full build command, can be used to add arguments
+    build-cmd: flutter build apk --debug
+          
