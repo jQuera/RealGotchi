@@ -17,12 +17,19 @@ class CreateTaskController {
   final StreamController<TaskFrequency> _taskFrequencySelectedStream = BehaviorSubject.seeded(TaskFrequency.unica);
   Stream<TaskFrequency> get taskFrequencySelectedStream => _taskFrequencySelectedStream.stream;
 
+  TimeOfDay executionTime = TimeOfDay.now();
+  final StreamController<TimeOfDay> _executionTimeStream = BehaviorSubject.seeded(TimeOfDay.now());
+  Stream<TimeOfDay> get executionTimeStream => _executionTimeStream.stream;
+
   void init() {
     clear();
   }
 
   void clear() {
     descriptionController.clear();
+    taskTypeSelected = TaskType.salud;
+    taskFrequencySelected = TaskFrequency.unica;
+    executionTime = TimeOfDay.now();
   }
 
   void changeTaskType(TaskType type) {
@@ -33,5 +40,10 @@ class CreateTaskController {
   void changeTaskFrequency(TaskFrequency frequency) {
     taskFrequencySelected = frequency;
     _taskFrequencySelectedStream.add(taskFrequencySelected);
+  }
+
+  void changeExecutionTime(TimeOfDay selectedTime) {
+    executionTime = selectedTime;
+    _executionTimeStream.add(executionTime);
   }
 }

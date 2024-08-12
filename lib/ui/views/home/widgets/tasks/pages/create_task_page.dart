@@ -29,8 +29,13 @@ class CreateTaskPage extends StatelessWidget {
                     minLines: 2,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      hintText: "Descripcion",
-                    ),
+                        hintText: "Descripcion",
+                        hintStyle: TextStyle(
+                          color: Colors.grey.shade400,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        )),
                     onTapOutside: (event) {
                       FocusManager.instance.primaryFocus?.unfocus();
                     },
@@ -44,13 +49,13 @@ class CreateTaskPage extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         TimeOfDay? selectedTime = await showTimePicker(
-                          initialTime: TimeOfDay.now(),
+                          initialTime: controller.executionTime,
                           context: context,
                         );
                         if (selectedTime == null) {
                           return;
                         }
-
+                        controller.changeExecutionTime(selectedTime);
                         // TODO: guardar el tiempo en el controller
                         print(selectedTime.toString());
                       },
@@ -59,7 +64,19 @@ class CreateTaskPage extends StatelessWidget {
                           border: Border(bottom: BorderSide(color: Colors.grey.shade400)),
                         ),
                         padding: const EdgeInsets.all(8),
-                        child: const Text("22:22"),
+                        child: StreamBuilder<TimeOfDay>(
+                            stream: controller.executionTimeStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.data == null) return const SizedBox.shrink();
+                              return Text(
+                                snapshot.data!.format(context),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              );
+                            }),
                       ),
                     ),
                   ],
@@ -120,7 +137,7 @@ class CreateTaskPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text("Guardar"),
+                  child: const Text("Crear tarea"),
                 ),
                 SizedBox(height: MediaQuery.paddingOf(context).bottom + 20)
               ],
