@@ -40,7 +40,7 @@ class CreateTaskPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Hora de tarea"),
+                    const Text("Hora de ejecución"),
                     GestureDetector(
                       onTap: () async {
                         TimeOfDay? selectedTime = await showTimePicker(
@@ -56,7 +56,7 @@ class CreateTaskPage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1),
+                          border: Border(bottom: BorderSide(color: Colors.grey.shade400)),
                         ),
                         padding: const EdgeInsets.all(8),
                         child: const Text("22:22"),
