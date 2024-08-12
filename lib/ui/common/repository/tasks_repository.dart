@@ -115,10 +115,12 @@ enum TaskType {
 }
 
 enum TaskFrequency {
-  unica,
-  diaria,
-  diaPorMedio,
-  cadaTresDias,
-  semanal,
-  mensual,
+  unica(descripcion: "Solo por hoy"),
+  diaria(descripcion: "Diaria"),
+  diaPorMedio(descripcion: "Día por medio"),
+  semanal(descripcion: "Una vez a la semana"),
+  mensual(descripcion: "Una vez al mes");
+
+  final String descripcion;
+  const TaskFrequency({required this.descripcion});
 }
