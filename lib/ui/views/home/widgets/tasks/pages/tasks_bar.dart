@@ -92,38 +92,6 @@ class TasksBar extends StatelessWidget {
   }
 }
 
-class TaskWidget extends StatelessWidget {
-  const TaskWidget({
-    super.key,
-    required this.description,
-    required this.time,
-    required this.completed,
-  });
-
-  final String description;
-  final String time;
-  final bool completed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: false,
-              onChanged: (value) {},
-            ),
-            Text("Jugar con pelota"),
-          ],
-        ),
-        Text("20:15")
-      ],
-    );
-  }
-}
-
 class TasksContainer extends StatelessWidget {
   const TasksContainer({
     super.key,
@@ -157,6 +125,7 @@ class TasksContainer extends StatelessWidget {
                   ],
                 )
               : ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
                     var task = tasks[index];
@@ -169,6 +138,38 @@ class TasksContainer extends StatelessWidget {
                 )
         ],
       ),
+    );
+  }
+}
+
+class TaskWidget extends StatelessWidget {
+  const TaskWidget({
+    super.key,
+    required this.description,
+    required this.time,
+    required this.completed,
+  });
+
+  final String description;
+  final String time;
+  final bool completed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              value: false,
+              onChanged: (value) {},
+            ),
+            Text(description),
+          ],
+        ),
+        Text(time)
+      ],
     );
   }
 }

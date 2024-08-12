@@ -21,25 +21,22 @@ class CreateTaskPage extends StatelessWidget {
             Column(
               children: [
                 const SizedBox(height: 15),
-                Container(
-                  height: 80,
-                  child: TextField(
-                    controller: controller.descriptionController,
-                    keyboardType: TextInputType.text,
-                    minLines: 2,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                        hintText: "Descripcion",
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade400,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        )),
-                    onTapOutside: (event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                  ),
+                TextField(
+                  controller: controller.descriptionController,
+                  keyboardType: TextInputType.text,
+                  minLines: 1,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                      hintText: "Descripcion",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade400,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      )),
+                  onTapOutside: (event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
                 ),
                 const SizedBox(height: 15),
                 Row(
@@ -56,8 +53,6 @@ class CreateTaskPage extends StatelessWidget {
                           return;
                         }
                         controller.changeExecutionTime(selectedTime);
-                        // TODO: guardar el tiempo en el controller
-                        print(selectedTime.toString());
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -136,7 +131,9 @@ class CreateTaskPage extends StatelessWidget {
             Column(
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.createTask();
+                  },
                   child: const Text("Crear tarea"),
                 ),
                 SizedBox(height: MediaQuery.paddingOf(context).bottom + 20)

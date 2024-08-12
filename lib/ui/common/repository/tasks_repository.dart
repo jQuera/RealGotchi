@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:rxdart/rxdart.dart';
 
 class TasksRepository {
@@ -51,7 +50,7 @@ class TasksRepository {
 
   Future<bool> updateTask(Task task) {
     try {
-      _tasks.where((element) => element.title == task.title);
+      _tasks.where((element) => element.description == task.description);
       _tasks.add(task);
       updateTaskStreams(task.type);
       return Future.value(true);
@@ -62,7 +61,7 @@ class TasksRepository {
 
   Future<bool> deleteTask(Task task) {
     try {
-      _tasks.removeWhere((element) => element.title == task.title);
+      _tasks.removeWhere((element) => element.description == task.description);
       updateTaskStreams(task.type);
       return Future.value(true);
     } catch (e) {
@@ -90,7 +89,7 @@ class TasksRepository {
 }
 
 class Task {
-  String title;
+  String uuid;
   String description;
   String hour;
   TaskFrequency frequency;
@@ -98,7 +97,7 @@ class Task {
   TaskType type;
 
   Task({
-    required this.title,
+    required this.uuid,
     required this.description,
     required this.isCompleted,
     required this.hour,

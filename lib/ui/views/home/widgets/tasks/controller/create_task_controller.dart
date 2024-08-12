@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/common/controllers/main_controller.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -45,5 +46,20 @@ class CreateTaskController {
   void changeExecutionTime(TimeOfDay selectedTime) {
     executionTime = selectedTime;
     _executionTimeStream.add(executionTime);
+  }
+
+  Task getTask() {
+    return Task(
+      description: descriptionController.text,
+      type: taskTypeSelected,
+      frequency: taskFrequencySelected,
+      hour: executionTime.toString(),
+      isCompleted: false,
+      uuid: DateTime.now().millisecondsSinceEpoch.toString(),
+    );
+  }
+
+  void createTask() {
+    MainController.instance.getCurrentState()!.pop(getTask());
   }
 }
