@@ -19,7 +19,8 @@ class TasksBar extends StatelessWidget {
             onPressed: () async {
               try {
                 CreateTaskController.instance.init();
-                Task? newTask = await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                Task? newTask = await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
                   return const CreateTaskPage();
                 }));
                 if (newTask == null) {
@@ -35,56 +36,50 @@ class TasksBar extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                children: [
-                  StreamBuilder<List<Task>>(
-                      stream: TasksRepository.instance.tasksSaludStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.salud.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksAlimentacionStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.alimentacion.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksHigieneStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.higiene.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksEntrenenimientoStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.entrenenimiento.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                ],
-              ),
-            ),
+            StreamBuilder<List<Task>>(
+                stream: TasksRepository.instance.tasksSaludStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const SizedBox.shrink();
+                  return TasksContainer(
+                    categoryTitle: TaskType.salud.name,
+                    tasks: snapshot.data!,
+                  );
+                }),
+            const SizedBox(height: 15),
+            StreamBuilder(
+                stream: TasksRepository.instance.tasksAlimentacionStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const SizedBox.shrink();
+                  return TasksContainer(
+                    categoryTitle: TaskType.alimentacion.name,
+                    tasks: snapshot.data!,
+                  );
+                }),
+            const SizedBox(height: 15),
+            StreamBuilder(
+                stream: TasksRepository.instance.tasksHigieneStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const SizedBox.shrink();
+                  return TasksContainer(
+                    categoryTitle: TaskType.higiene.name,
+                    tasks: snapshot.data!,
+                  );
+                }),
+            const SizedBox(height: 15),
+            StreamBuilder(
+                stream: TasksRepository.instance.tasksEntrenenimientoStream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const SizedBox.shrink();
+                  return TasksContainer(
+                    categoryTitle: TaskType.entrenenimiento.name,
+                    tasks: snapshot.data!,
+                  );
+                }),
+            const SizedBox(height: 25),
           ],
         ),
       ),
@@ -125,6 +120,7 @@ class TasksContainer extends StatelessWidget {
                   ],
                 )
               : ListView.builder(
+                  shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
