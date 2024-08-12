@@ -68,7 +68,7 @@ class CreateTaskPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Repetición"),
+                    const Text("Frecuencia"),
                     StreamBuilder<TaskFrequency>(
                         stream: controller.taskFrequencySelectedStream,
                         builder: (context, snapshot) {
