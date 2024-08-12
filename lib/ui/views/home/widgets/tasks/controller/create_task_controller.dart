@@ -29,4 +29,9 @@ class CreateTaskController {
     taskTypeSelected = type;
     _taskTypeSelectedStream.add(taskTypeSelected);
   }
+
+  void changeTaskFrequency(TaskFrequency frequency) {
+    taskFrequencySelected = frequency;
+    _taskFrequencySelectedStream.add(taskFrequencySelected);
+  }
 }
