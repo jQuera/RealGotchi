@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/common/services/local_notification_service.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
 import 'package:myapp/ui/views/welcome/pages/welcome_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotificationService.instance.init();
   runApp(const MyApp());
 }
 
