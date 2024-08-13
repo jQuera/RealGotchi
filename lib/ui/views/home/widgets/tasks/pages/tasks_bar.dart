@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/common/services/local_notification_service.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
@@ -17,6 +18,8 @@ class TasksBar extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () async {
+              // LocalNotificationController.instance.showPeriodicNotification("test", "este es el body", "payload");
+              // return;
               try {
                 CreateTaskController.instance.init();
                 Task? newTask = await Navigator.of(context)
