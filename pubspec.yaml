@@ -13,8 +13,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
-  flutter_local_notifications: 17.2.2
   o3d: 3.1.2
+  onesignal_flutter: 5.1.2
   rxdart: 0.28.0
   timezone: 0.9.4 
 

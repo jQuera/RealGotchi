@@ -13,25 +13,26 @@ class PetViewBar extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            Container(
-              width: double.infinity,
-              color: Colors.red,
-              alignment: Alignment.bottomCenter,
-              child: O3D.asset(
-                key: UniqueKey(),
-                src: 'assets/3d_models/toon_cat_free.glb',
-                controller: HomeController.instance.modelController,
-                backgroundColor: Colors.purple,
-                ar: false,
-                autoPlay: true,
-                autoRotate: false,
-                xrEnvironment: false,
-                touchAction: TouchAction.none,
-                cameraControls: true,
-                disablePan: true,
-                disableZoom: true,
-              ),
-            ),
+              //TODO: reactivar esta wea
+            // Container(
+            //   width: double.infinity,
+            //   color: Colors.red,
+            //   alignment: Alignment.bottomCenter,
+              // child: O3D.asset(
+              //   key: UniqueKey(),
+              //   src: 'assets/3d_models/toon_cat_free.glb',
+              //   controller: HomeController.instance.modelController,
+              //   backgroundColor: Colors.purple,
+              //   ar: false,
+              //   autoPlay: true,
+              //   autoRotate: false,
+              //   xrEnvironment: false,
+              //   touchAction: TouchAction.none,
+              //   cameraControls: true,
+              //   disablePan: true,
+              //   disableZoom: true,
+              // ),
+            // ),
             const Positioned(
               top: 30,
               child: SafeArea(
