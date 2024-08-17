@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
@@ -19,8 +20,7 @@ class TasksBar extends StatelessWidget {
             onPressed: () async {
               try {
                 CreateTaskController.instance.init();
-                Task? newTask = await Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
+                Task? newTask = await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return const CreateTaskPage();
                 }));
                 if (newTask == null) {
@@ -36,52 +36,93 @@ class TasksBar extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          children: [
-            StreamBuilder<List<Task>>(
-                stream: TasksRepository.instance.tasksSaludStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const SizedBox.shrink();
-                  return TasksContainer(
-                    categoryTitle: TaskType.salud.name,
-                    tasks: snapshot.data!,
-                  );
-                }),
-            const SizedBox(height: 15),
-            StreamBuilder(
-                stream: TasksRepository.instance.tasksAlimentacionStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const SizedBox.shrink();
-                  return TasksContainer(
-                    categoryTitle: TaskType.alimentacion.name,
-                    tasks: snapshot.data!,
-                  );
-                }),
-            const SizedBox(height: 15),
-            StreamBuilder(
-                stream: TasksRepository.instance.tasksHigieneStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const SizedBox.shrink();
-                  return TasksContainer(
-                    categoryTitle: TaskType.higiene.name,
-                    tasks: snapshot.data!,
-                  );
-                }),
-            const SizedBox(height: 15),
-            StreamBuilder(
-                stream: TasksRepository.instance.tasksEntrenenimientoStream,
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const SizedBox.shrink();
-                  return TasksContainer(
-                    categoryTitle: TaskType.entrenenimiento.name,
-                    tasks: snapshot.data!,
-                  );
-                }),
-            const SizedBox(height: 25),
-          ],
-        ),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      DateFormat('EEEE').format(DateTime.now()),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      DateFormat('dd - MMMM').format(DateTime.now()),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.arrow_forward_ios_rounded),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  StreamBuilder<List<Task>>(
+                      stream: TasksRepository.instance.tasksSaludStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.salud.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksAlimentacionStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.alimentacion.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksHigieneStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.higiene.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                      stream: TasksRepository.instance.tasksEntrenenimientoStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return TasksContainer(
+                          categoryTitle: TaskType.entrenenimiento.name,
+                          tasks: snapshot.data!,
+                        );
+                      }),
+                  const SizedBox(height: 25),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -111,7 +152,7 @@ class TasksContainer extends StatelessWidget {
         children: [
           Text(
             categoryTitle,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           tasks.isEmpty
               ? const Row(
