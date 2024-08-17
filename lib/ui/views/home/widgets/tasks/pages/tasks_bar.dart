@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
-import 'package:myapp/ui/common/repository/tasks_repository.dart';
+import 'package:myapp/ui/common/repository/task.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/pages/create_task_page.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/widgets/reminder_widget.dart';
 
 class TasksBar extends StatelessWidget {
   const TasksBar({super.key});
@@ -97,38 +97,6 @@ class TasksBar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ReminderWidget extends StatelessWidget {
-  const ReminderWidget({
-    super.key,
-    required this.description,
-    required this.time,
-    required this.completed,
-  });
-
-  final String description;
-  final String time;
-  final bool completed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: false,
-              onChanged: (value) {},
-            ),
-            Text(description),
-          ],
-        ),
-        Text(time)
-      ],
     );
   }
 }

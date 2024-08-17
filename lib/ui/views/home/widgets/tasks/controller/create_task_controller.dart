@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
+import 'package:myapp/ui/common/repository/task.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,19 +12,15 @@ class CreateTaskController {
   TextEditingController descriptionController = TextEditingController();
 
   TaskType taskTypeSelected = TaskType.salud;
-  final StreamController<TaskType> _taskTypeSelectedStream =
-      BehaviorSubject.seeded(TaskType.salud);
+  final StreamController<TaskType> _taskTypeSelectedStream = BehaviorSubject.seeded(TaskType.salud);
   Stream<TaskType> get taskTypeSelectedStream => _taskTypeSelectedStream.stream;
 
   TaskFrequency taskFrequencySelected = TaskFrequency.unica;
-  final StreamController<TaskFrequency> _taskFrequencySelectedStream =
-      BehaviorSubject.seeded(TaskFrequency.unica);
-  Stream<TaskFrequency> get taskFrequencySelectedStream =>
-      _taskFrequencySelectedStream.stream;
+  final StreamController<TaskFrequency> _taskFrequencySelectedStream = BehaviorSubject.seeded(TaskFrequency.unica);
+  Stream<TaskFrequency> get taskFrequencySelectedStream => _taskFrequencySelectedStream.stream;
 
   TimeOfDay executionTime = TimeOfDay.now();
-  final StreamController<TimeOfDay> _executionTimeStream =
-      BehaviorSubject.seeded(TimeOfDay.now());
+  final StreamController<TimeOfDay> _executionTimeStream = BehaviorSubject.seeded(TimeOfDay.now());
   Stream<TimeOfDay> get executionTimeStream => _executionTimeStream.stream;
 
   void init() {
@@ -56,10 +53,9 @@ class CreateTaskController {
     return Task(
       description: descriptionController.text,
       type: taskTypeSelected,
-      frequency: taskFrequencySelected,
-      hour: executionTime
-          .format(MainController.instance.getCurrentState()!.context),
-      isCompleted: false,
+      daysOfExecution: taskFrequencySelected,
+      hour: executionTime.format(MainController.instance.getCurrentState()!.context),
+      isActive: false,
       uuid: DateTime.now().millisecondsSinceEpoch.toString(),
     );
   }

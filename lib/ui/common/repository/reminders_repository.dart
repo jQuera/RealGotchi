@@ -1,3 +1,6 @@
+import 'package:myapp/ui/common/repository/task.dart';
+import 'package:myapp/ui/common/repository/tasks_repository.dart';
+
 class RemindersRepository {
   static final RemindersRepository instance = RemindersRepository._internal();
   RemindersRepository._internal();
@@ -6,6 +9,10 @@ class RemindersRepository {
 
   void createReminder(Reminder reminder) {
     _reminders.add(reminder);
+  }
+
+  Future<void> createRemindersFromTask(Task task)async{
+         
   }
 
   List<Reminder> readReminders() {
