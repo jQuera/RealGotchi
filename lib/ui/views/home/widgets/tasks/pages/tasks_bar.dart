@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
+import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
@@ -20,16 +23,18 @@ class TasksBar extends StatelessWidget {
             onPressed: () async {
               try {
                 CreateTaskController.instance.init();
-                Task? newTask = await Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return const CreateTaskPage();
-                }));
+                Task? newTask = await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return const CreateTaskPage();
+                  }),
+                );
                 if (newTask == null) {
-                  print("No se creo la tarea");
+                  debugPrint("No se creo la tarea");
                   return;
                 }
                 controller.tasksRepository.createTask(newTask);
               } catch (e) {
-                print(e);
+                debugPrint(e.toString());
               }
             },
             icon: const Icon(Icons.add_circle_outline_rounded),
@@ -72,55 +77,23 @@ class TasksBar extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                children: [
-                  const SizedBox(height: 15),
-                  StreamBuilder<List<Task>>(
-                      stream: TasksRepository.instance.tasksSaludStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.salud.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksAlimentacionStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.alimentacion.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksHigieneStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.higiene.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 15),
-                  StreamBuilder(
-                      stream: TasksRepository.instance.tasksEntrenenimientoStream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        return TasksContainer(
-                          categoryTitle: TaskType.entrenenimiento.name,
-                          tasks: snapshot.data!,
-                        );
-                      }),
-                  const SizedBox(height: 25),
-                ],
-              ),
-            ),
+          StreamBuilder<List<Reminder>>(
+            stream: RemindersOfDayRepository.instance.remindersOfDayStream,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return const SizedBox.shrink();
+
+              return ListView.builder(
+                padding: const EdgeInsets.fromLTRB(12, 15, 12, 24),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return ReminderWidget(
+                    description: snapshot.data![index].description,
+                    time: DateFormat('HH:mm').format(snapshot.data![index].date),
+                    completed: snapshot.data![index].isCompleted,
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
@@ -128,59 +101,8 @@ class TasksBar extends StatelessWidget {
   }
 }
 
-class TasksContainer extends StatelessWidget {
-  const TasksContainer({
-    super.key,
-    required this.categoryTitle,
-    required this.tasks,
-  });
-
-  final String categoryTitle;
-  final List<Task> tasks;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            categoryTitle,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          tasks.isEmpty
-              ? const Row(
-                  children: [
-                    Text("Todavia no has asignado tareas"),
-                  ],
-                )
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) {
-                    var task = tasks[index];
-                    return TaskWidget(
-                      description: task.description,
-                      time: task.hour,
-                      completed: task.isCompleted,
-                    );
-                  },
-                )
-        ],
-      ),
-    );
-  }
-}
-
-class TaskWidget extends StatelessWidget {
-  const TaskWidget({
+class ReminderWidget extends StatelessWidget {
+  const ReminderWidget({
     super.key,
     required this.description,
     required this.time,
