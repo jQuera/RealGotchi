@@ -24,6 +24,18 @@ class RemindersRepository {
   void deleteReminder(Reminder reminder) {
     _reminders.remove(reminder);
   }
+
+  Future<List<Reminder>> getRemindersOfDay(DateTime dateTime) {
+    List<Reminder> remindersOfDay = [];
+
+    for (Reminder reminder in _reminders) {
+      if (reminder.date.day == dateTime.day) {
+        remindersOfDay.add(reminder);
+      }
+    }
+
+    return Future.value(remindersOfDay);
+  }
 }
 
 class Reminder {
