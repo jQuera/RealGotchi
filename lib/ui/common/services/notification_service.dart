@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final NotificationService instance = NotificationService._internal();

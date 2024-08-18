@@ -1,5 +1,4 @@
 import 'package:myapp/ui/common/repository/task.dart';
-import 'package:myapp/ui/common/repository/tasks_repository.dart';
 
 class RemindersRepository {
   static final RemindersRepository instance = RemindersRepository._internal();
@@ -11,8 +10,8 @@ class RemindersRepository {
     _reminders.add(reminder);
   }
 
-  Future<void> createRemindersFromTask(Task task)async{
-         
+  Future<void> createRemindersFromTask(Task task) async {
+    //TODO: crear recordatorios para los proximos 7 dias segun la Task
   }
 
   List<Reminder> readReminders() {
