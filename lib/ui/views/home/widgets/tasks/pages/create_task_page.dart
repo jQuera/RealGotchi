@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
 
@@ -80,31 +81,6 @@ class CreateTaskPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Frecuencia"),
-                    StreamBuilder<TaskFrequency>(
-                        stream: controller.taskFrequencySelectedStream,
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) return const SizedBox.shrink();
-                          return DropdownButton<TaskFrequency>(
-                            value: snapshot.data,
-                            items: TaskFrequency.values.map((e) {
-                              return DropdownMenuItem(
-                                value: e,
-                                child: Text(e.descripcion),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value == null) return;
-                              controller.changeTaskFrequency(value);
-                            },
-                          );
-                        }),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     const Text("Categoría"),
                     StreamBuilder<TaskType>(
                         stream: controller.taskTypeSelectedStream,
@@ -126,6 +102,53 @@ class CreateTaskPage extends StatelessWidget {
                         }),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Que dia"),
+                    StreamBuilder<List<DayOfWeek>>(
+                      stream: controller.daysOfExecutionStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        return Row(
+                          children: List.generate(
+                            7,
+                            (index) {
+                              DayOfWeek day = DayOfWeek.values[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  if (snapshot.data!.contains(day)) {
+                                    snapshot.data!.remove(day);
+                                  } else {
+                                    snapshot.data!.add(day);
+                                  }
+                                  controller.changeDaysOfExecution(snapshot.data!);
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: snapshot.data!.contains(day) ? Colors.amber : Colors.grey.shade200,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    day.name[0],
+                                    style: TextStyle(
+                                      color: snapshot.data!.contains(day) ? Colors.white : Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
               ],
             ),
             Column(

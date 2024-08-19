@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
+import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:rxdart/rxdart.dart';
@@ -15,13 +16,13 @@ class CreateTaskController {
   final StreamController<TaskType> _taskTypeSelectedStream = BehaviorSubject.seeded(TaskType.salud);
   Stream<TaskType> get taskTypeSelectedStream => _taskTypeSelectedStream.stream;
 
-  TaskFrequency taskFrequencySelected = TaskFrequency.unica;
-  final StreamController<TaskFrequency> _taskFrequencySelectedStream = BehaviorSubject.seeded(TaskFrequency.unica);
-  Stream<TaskFrequency> get taskFrequencySelectedStream => _taskFrequencySelectedStream.stream;
-
   TimeOfDay executionTime = TimeOfDay.now();
   final StreamController<TimeOfDay> _executionTimeStream = BehaviorSubject.seeded(TimeOfDay.now());
   Stream<TimeOfDay> get executionTimeStream => _executionTimeStream.stream;
+
+  List<DayOfWeek> daysOfExecution = [];
+  final StreamController<List<DayOfWeek>> _daysOfExecutionStream = BehaviorSubject.seeded([]);
+  Stream<List<DayOfWeek>> get daysOfExecutionStream => _daysOfExecutionStream.stream;
 
   void init() {
     clear();
@@ -30,7 +31,6 @@ class CreateTaskController {
   void clear() {
     descriptionController.clear();
     taskTypeSelected = TaskType.salud;
-    taskFrequencySelected = TaskFrequency.unica;
     executionTime = TimeOfDay.now();
   }
 
@@ -39,21 +39,21 @@ class CreateTaskController {
     _taskTypeSelectedStream.add(taskTypeSelected);
   }
 
-  void changeTaskFrequency(TaskFrequency frequency) {
-    taskFrequencySelected = frequency;
-    _taskFrequencySelectedStream.add(taskFrequencySelected);
-  }
-
   void changeExecutionTime(TimeOfDay selectedTime) {
     executionTime = selectedTime;
     _executionTimeStream.add(executionTime);
+  }
+
+  void changeDaysOfExecution(List<DayOfWeek> days) {
+    daysOfExecution = days;
+    _daysOfExecutionStream.add(daysOfExecution);
   }
 
   Task getTask() {
     return Task(
       description: descriptionController.text,
       type: taskTypeSelected,
-      daysOfExecution: taskFrequencySelected,
+      daysOfExecution: [],
       hour: executionTime.format(MainController.instance.getCurrentState()!.context),
       isActive: false,
       uuid: DateTime.now().millisecondsSinceEpoch.toString(),

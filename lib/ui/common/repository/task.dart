@@ -1,12 +1,11 @@
-import 'package:myapp/ui/common/enums/days_of_week.dart';
-import 'package:myapp/ui/common/repository/reminders_repository.dart';
+import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 
 class Task {
   String uuid;
   String description;
   String hour;
-  List<DaysOfWeek> daysOfExecution;
+  List<DayOfWeek> daysOfExecution;
   bool isActive;
   TaskType type;
 

@@ -1,4 +1,4 @@
-import 'package:myapp/ui/common/enums/days_of_week.dart';
+import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 
 class RemindersRepository {
@@ -16,7 +16,7 @@ class RemindersRepository {
     var currentDate = DateTime.now();
     for (int i = 0; i < 7; i++) {
       DateTime nextDay = currentDate.add(Duration(days: i));
-      DaysOfWeek dayOfWeek = DaysOfWeek.getDayFromDate(nextDay);
+      DayOfWeek dayOfWeek = DayOfWeek.getDayFromDate(nextDay);
 
       // Crear la fecha y hora específica para el reminder
       DateTime newDate = DateTime(
