@@ -53,7 +53,7 @@ class CreateTaskController {
     return Task(
       description: descriptionController.text,
       type: taskTypeSelected,
-      daysOfExecution: [],
+      daysOfExecution: daysOfExecution,
       hour: executionTime.format(MainController.instance.getCurrentState()!.context),
       isActive: false,
       uuid: DateTime.now().millisecondsSinceEpoch.toString(),
