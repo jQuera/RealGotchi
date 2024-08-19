@@ -1,3 +1,4 @@
+import 'package:myapp/ui/common/enums/days_of_week.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 
 class RemindersRepository {
@@ -12,6 +13,36 @@ class RemindersRepository {
 
   Future<void> createRemindersFromTask(Task task) async {
     //TODO: crear recordatorios para los proximos 7 dias segun la Task
+    var currentDate = DateTime.now();
+    for (int i = 0; i < 7; i++) {
+      DateTime nextDay = currentDate.add(Duration(days: i));
+      DaysOfWeek dayOfWeek = DaysOfWeek.getDayFromDate(nextDay);
+
+      // Crear la fecha y hora específica para el reminder
+      DateTime newDate = DateTime(
+        nextDay.year,
+        nextDay.month,
+        nextDay.day,
+        int.parse(task.hour.split(':')[0]),
+        int.parse(task.hour.split(':')[1]),
+      );
+
+      if (task.daysOfExecution.contains(dayOfWeek)) {
+        bool reminderExist = _reminders.any((reminder) => reminder.date == newDate);
+
+        // Solo crear el recordatorio si no existe y la hora es en el futuro o es la misma
+        if (!reminderExist && (newDate.isAfter(currentDate) || newDate.isAtSameMomentAs(currentDate))) {
+          Reminder newReminder = Reminder(
+            id: DateTime.now().toString(),
+            description: task.description,
+            date: newDate,
+            isActive: true,
+            isCompleted: false,
+          );
+          createReminder(newReminder);
+        }
+      }
+    }
   }
 
   List<Reminder> readReminders() {
@@ -58,18 +89,4 @@ class Reminder {
     required this.isActive,
     required this.isCompleted,
   });
-}
-
-enum DaysOfWeek {
-  monday("Lunes"),
-  tuesday("Martes"),
-  wednesday("Miercoles"),
-  thursday("Jueves"),
-  friday("Viernes"),
-  saturday("Sabado"),
-  sunday("Domingo");
-
-  const DaysOfWeek(this.name);
-
-  final String name;
 }
