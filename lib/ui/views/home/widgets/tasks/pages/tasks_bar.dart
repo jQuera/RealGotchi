@@ -57,11 +57,16 @@ class TasksBar extends StatelessWidget {
                 StreamBuilder<DateTime>(
                     stream: controller.currentDayStream,
                     builder: (context, snapshot) {
+                      debugPrint("snapshot: ${snapshot.data!.day}");
+                      debugPrint("today: ${DateTime.now().day}");
+                      //Por corregir, no esta tomando bien el dia de la semana desde el sistema
                       if (!snapshot.hasData) return const SizedBox.shrink();
                       return Column(
                         children: [
                           Text(
-                            DateFormat('EEEE').format(snapshot.data!),
+                            snapshot.data!.day == DateTime.now().day
+                                ? "Hoy"
+                                : DateFormat('EEEE').format(snapshot.data!),
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
