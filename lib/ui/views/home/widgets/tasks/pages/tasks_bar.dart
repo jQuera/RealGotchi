@@ -49,51 +49,67 @@ class TasksBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.previousDay();
+                  },
                   icon: const Icon(Icons.arrow_back_ios_new_rounded),
                 ),
-                Column(
-                  children: [
-                    Text(
-                      DateFormat('EEEE').format(DateTime.now()),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('dd - MMMM').format(DateTime.now()),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+                StreamBuilder<DateTime>(
+                    stream: controller.currentDayStream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return const SizedBox.shrink();
+                      return Column(
+                        children: [
+                          Text(
+                            DateFormat('EEEE').format(snapshot.data!),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            DateFormat('dd - MMMM').format(snapshot.data!),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.nextDay();
+                  },
                   icon: const Icon(Icons.arrow_forward_ios_rounded),
                 ),
               ],
             ),
           ),
-          StreamBuilder<List<Reminder>>(
-            stream: RemindersOfDayRepository.instance.remindersOfDayStream,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return const SizedBox.shrink();
-
-              return ListView.builder(
-                padding: const EdgeInsets.fromLTRB(12, 15, 12, 24),
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return ReminderWidget(
-                    description: snapshot.data![index].description,
-                    time: DateFormat('HH:mm').format(snapshot.data![index].date),
-                    completed: snapshot.data![index].isCompleted,
+          Expanded(
+            child: StreamBuilder<List<Reminder>>(
+              stream: RemindersOfDayRepository.instance.remindersOfDayStream,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const SizedBox.shrink();
+                if (snapshot.data!.isEmpty) {
+                  return const Text(
+                    "Aun no tienes registros\nCrea uno en la esquina superior derecha",
+                    textAlign: TextAlign.center,
                   );
-                },
-              );
-            },
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(12, 15, 12, 24),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return ReminderWidget(
+                      description: snapshot.data![index].description,
+                      time: DateFormat('HH:mm').format(snapshot.data![index].date),
+                      completed: snapshot.data![index].isCompleted,
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),

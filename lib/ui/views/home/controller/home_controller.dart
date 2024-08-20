@@ -17,6 +17,10 @@ class HomeController {
   final StreamController<int> _currentPageStream = BehaviorSubject.seeded(1);
   Stream<int> get currentPageStream => _currentPageStream.stream;
 
+  DateTime currentDay = DateTime.now();
+  final StreamController<DateTime> _currentDayStream = BehaviorSubject.seeded(DateTime.now());
+  Stream<DateTime> get currentDayStream => _currentDayStream.stream;
+
   void init() async {
     await Future.delayed(Durations.extralong4);
     tasksRepository.init();
@@ -28,5 +32,15 @@ class HomeController {
   void changeCurrentPage(int value) {
     currentPage = value;
     _currentPageStream.add(currentPage);
+  }
+
+  void nextDay() {
+    currentDay = currentDay.add(const Duration(days: 1));
+    _currentDayStream.add(currentDay);
+  }
+
+  void previousDay() {
+    currentDay = currentDay.subtract(const Duration(days: 1));
+    _currentDayStream.add(currentDay);
   }
 }
