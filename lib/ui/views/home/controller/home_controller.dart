@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
+import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
+import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:myapp/ui/views/home/home_page.dart';
 import 'package:o3d/o3d.dart';
@@ -10,6 +12,8 @@ import 'package:rxdart/rxdart.dart';
 class HomeController {
   static final HomeController instance = HomeController();
   final TasksRepository tasksRepository = TasksRepository.instance;
+  final RemindersRepository remindersRepository = RemindersRepository.instance;
+  final RemindersOfDayRepository remindersOfDayRepository = RemindersOfDayRepository.instance;
 
   O3DController modelController = O3DController();
 
@@ -37,10 +41,16 @@ class HomeController {
   void nextDay() {
     currentDay = currentDay.add(const Duration(days: 1));
     _currentDayStream.add(currentDay);
+    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
   }
 
   void previousDay() {
     currentDay = currentDay.subtract(const Duration(days: 1));
     _currentDayStream.add(currentDay);
+    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
+  }
+
+  void getRemindersOfDay() {
+    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
   }
 }

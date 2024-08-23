@@ -32,7 +32,8 @@ class TasksBar extends StatelessWidget {
                   debugPrint("No se creo la tarea");
                   return;
                 }
-                controller.tasksRepository.createTask(newTask);
+                await controller.tasksRepository.createTask(newTask);
+                controller.getRemindersOfDay();
               } catch (e) {
                 debugPrint(e.toString());
               }
@@ -57,10 +58,10 @@ class TasksBar extends StatelessWidget {
                 StreamBuilder<DateTime>(
                     stream: controller.currentDayStream,
                     builder: (context, snapshot) {
-                      debugPrint("snapshot: ${snapshot.data!.day}");
-                      debugPrint("today: ${DateTime.now().day}");
                       //Por corregir, no esta tomando bien el dia de la semana desde el sistema
                       if (!snapshot.hasData) return const SizedBox.shrink();
+                      debugPrint("snapshot: ${snapshot.data!.day}");
+                      debugPrint("today: ${DateTime.now().day}");
                       return Column(
                         children: [
                           Text(
@@ -98,7 +99,7 @@ class TasksBar extends StatelessWidget {
                 if (!snapshot.hasData) return const SizedBox.shrink();
                 if (snapshot.data!.isEmpty) {
                   return const Text(
-                    "Aun no tienes registros\nCrea uno en la esquina superior derecha",
+                    "Aún no tienes recordatorios\nCrea uno en la esquina superior derecha",
                     textAlign: TextAlign.center,
                   );
                 }

@@ -1,4 +1,5 @@
 import 'package:myapp/ui/common/enums/day_of_week.dart';
+import 'package:myapp/ui/common/extensions/extensions.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 
 class RemindersRepository {
@@ -23,8 +24,8 @@ class RemindersRepository {
         nextDay.year,
         nextDay.month,
         nextDay.day,
-        int.parse(task.hour.split(':')[0]),
-        int.parse(task.hour.split(':')[1]),
+        Extensions.timeOfDayFromString(task.hour).hour,
+        Extensions.timeOfDayFromString(task.hour).minute,
       );
 
       if (task.daysOfExecution.contains(dayOfWeek)) {

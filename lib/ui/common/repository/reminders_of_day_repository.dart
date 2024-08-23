@@ -17,4 +17,9 @@ class RemindersOfDayRepository {
     remindersOfDay = await remindersRepository.getRemindersOfDay(DateTime.now());
     _remindersOfDayStream.add(remindersOfDay);
   }
+
+  Future<void> getRemindersOfDay(DateTime dateTime) async {
+    remindersOfDay = await remindersRepository.getRemindersOfDay(dateTime);
+    _remindersOfDayStream.add(remindersOfDay);
+  }
 }
