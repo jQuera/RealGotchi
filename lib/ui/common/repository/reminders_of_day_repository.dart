@@ -18,7 +18,7 @@ class RemindersOfDayRepository {
   }
 
   Future<void> getRemindersOfDay(DateTime dateTime) async {
-    final allReminders = remindersRepository.readReminders();
+    final allReminders = await remindersRepository.readReminders();
     remindersOfDay = allReminders.where((reminder) {
       return reminder.date.year == dateTime.year &&
           reminder.date.month == dateTime.month &&

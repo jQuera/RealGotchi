@@ -1,6 +1,5 @@
 import 'package:myapp/data/datasources/gotchi_local_datasource.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
-import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 
 class RemindersRepository {
@@ -34,8 +33,7 @@ class RemindersRepository {
         task.executionTime.minute,
       );
 
-      if (task.type == TaskType.salud ||
-          (task.type == TaskType.entrenenimiento && dayOfWeek == DayOfWeek.getDayFromDate(task.executionTime))) {
+      if (task.daysOfWeek.contains(dayOfWeek)) {
         bool reminderExist = _reminders.any((reminder) => reminder.date == newDate);
 
         if (!reminderExist && (newDate.isAfter(currentDate) || newDate.isAtSameMomentAs(currentDate))) {
@@ -57,7 +55,10 @@ class RemindersRepository {
     _reminders.add(reminder);
   }
 
-  List<Reminder> readReminders() {
+  Future<List<Reminder>> readReminders() async {
+    if (_reminders.isEmpty) {
+      await _loadRemindersFromLocalStorage();
+    }
     return _reminders;
   }
 

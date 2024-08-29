@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:myapp/ui/common/repository/task.dart';
@@ -36,7 +37,8 @@ class TasksRepository {
       updateTaskStream();
       await RemindersRepository.instance.createRemindersFromTask(task);
       return true;
-    } catch (e) {
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s, label: e.toString());
       return false;
     }
   }

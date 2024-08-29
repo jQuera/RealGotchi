@@ -1,8 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 class RealGotchiLocalDatasource {
-  static final RealGotchiLocalDatasource _instance =
-      RealGotchiLocalDatasource._internal();
+  static final RealGotchiLocalDatasource _instance = RealGotchiLocalDatasource._internal();
 
   static Database? _database;
 
@@ -25,12 +24,14 @@ class RealGotchiLocalDatasource {
       path,
       onCreate: (db, version) async {
         await db.execute("CREATE TABLE tasks("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "id TEXT PRIMARY KEY,"
             "title TEXT NOT NULL,"
             "description TEXT NOT NULL,"
             "executionTime TEXT NOT NULL,"
+            "type INTEGER NOT NULL,"
             "createdAt TEXT NOT NULL,"
-            "updatedAt TEXT NOT NULL"
+            "updatedAt TEXT NOT NULL,"
+            "daysOfWeek TEXT NOT NULL" // Agregamos la columna daysOfWeek
             ")");
 
         await db.execute("CREATE TABLE reminders("
@@ -41,15 +42,24 @@ class RealGotchiLocalDatasource {
             "isActive INTEGER NOT NULL"
             ")");
       },
-      version: 1,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 3) {
+          await db.execute("ALTER TABLE tasks ADD COLUMN type INTEGER NOT NULL DEFAULT 0");
+        }
+        if (oldVersion < 4) {
+          await db.execute("ALTER TABLE tasks ADD COLUMN daysOfWeek TEXT NOT NULL DEFAULT ''");
+        }
+      },
+      version: 4, // Aumentamos la versión de la base de datos
     );
   }
 
   // CRUD para la tabla tasks
 
-  Future<int> insertTask(Map<String, dynamic> task) async {
+  Future<String> insertTask(Map<String, dynamic> task) async {
     final Database db = await _getDatabase();
-    return await db.insert('tasks', task);
+    await db.insert('tasks', task);
+    return task['id'] as String;
   }
 
   Future<List<Map<String, dynamic>>> getTasks() async {
@@ -59,11 +69,10 @@ class RealGotchiLocalDatasource {
 
   Future<int> updateTask(Map<String, dynamic> task) async {
     final Database db = await _getDatabase();
-    return await db
-        .update('tasks', task, where: 'id = ?', whereArgs: [task['id']]);
+    return await db.update('tasks', task, where: 'id = ?', whereArgs: [task['id']]);
   }
 
-  Future<int> deleteTask(int id) async {
+  Future<int> deleteTask(String id) async {
     final Database db = await _getDatabase();
     return await db.delete('tasks', where: 'id = ?', whereArgs: [id]);
   }
@@ -82,8 +91,7 @@ class RealGotchiLocalDatasource {
 
   Future<int> updateReminder(Map<String, dynamic> reminder) async {
     final Database db = await _getDatabase();
-    return await db.update('reminders', reminder,
-        where: 'id = ?', whereArgs: [reminder['id']]);
+    return await db.update('reminders', reminder, where: 'id = ?', whereArgs: [reminder['id']]);
   }
 
   Future<int> deleteReminder(String id) async {

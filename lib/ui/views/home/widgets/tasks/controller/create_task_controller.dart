@@ -6,6 +6,7 @@ import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateTaskController {
   static final CreateTaskController instance = CreateTaskController();
@@ -13,20 +14,16 @@ class CreateTaskController {
   TextEditingController descriptionController = TextEditingController();
 
   TaskType taskTypeSelected = TaskType.salud;
-  final StreamController<TaskType> _taskTypeSelectedStream =
-      BehaviorSubject.seeded(TaskType.salud);
+  final StreamController<TaskType> _taskTypeSelectedStream = BehaviorSubject.seeded(TaskType.salud);
   Stream<TaskType> get taskTypeSelectedStream => _taskTypeSelectedStream.stream;
 
   TimeOfDay executionTime = TimeOfDay.now();
-  final StreamController<TimeOfDay> _executionTimeStream =
-      BehaviorSubject.seeded(TimeOfDay.now());
+  final StreamController<TimeOfDay> _executionTimeStream = BehaviorSubject.seeded(TimeOfDay.now());
   Stream<TimeOfDay> get executionTimeStream => _executionTimeStream.stream;
 
   List<DayOfWeek> daysOfExecution = [];
-  final StreamController<List<DayOfWeek>> _daysOfExecutionStream =
-      BehaviorSubject.seeded([]);
-  Stream<List<DayOfWeek>> get daysOfExecutionStream =>
-      _daysOfExecutionStream.stream;
+  final StreamController<List<DayOfWeek>> _daysOfExecutionStream = BehaviorSubject.seeded([]);
+  Stream<List<DayOfWeek>> get daysOfExecutionStream => _daysOfExecutionStream.stream;
 
   void init() {
     clear();
@@ -55,6 +52,7 @@ class CreateTaskController {
 
   Task getTask() {
     return Task(
+      id: const Uuid().v4(),
       title: descriptionController.text,
       description: descriptionController.text,
       executionTime: DateTime(
@@ -65,6 +63,9 @@ class CreateTaskController {
         executionTime.minute,
       ),
       type: taskTypeSelected,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      daysOfWeek: daysOfExecution,
     );
   }
 

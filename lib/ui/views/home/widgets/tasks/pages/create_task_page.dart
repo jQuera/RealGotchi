@@ -10,6 +10,7 @@ class CreateTaskPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CreateTaskController controller = CreateTaskController.instance;
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Esta línea evita que el contenido se reajuste cuando el teclado aparece
       appBar: AppBar(
         title: const Text("Nueva tarea"),
         automaticallyImplyLeading: false,
@@ -57,8 +58,7 @@ class CreateTaskPage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(color: Colors.grey.shade400)),
+                          border: Border(bottom: BorderSide(color: Colors.grey.shade400)),
                         ),
                         padding: const EdgeInsets.all(8),
                         child: StreamBuilder<TimeOfDay>(
@@ -125,27 +125,21 @@ class CreateTaskPage extends StatelessWidget {
                                   } else {
                                     snapshot.data!.add(day);
                                   }
-                                  controller
-                                      .changeDaysOfExecution(snapshot.data!);
+                                  controller.changeDaysOfExecution(snapshot.data!);
                                 },
                                 child: Container(
                                   height: 30,
                                   width: 30,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  margin: const EdgeInsets.symmetric(horizontal: 5),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: snapshot.data!.contains(day)
-                                        ? Colors.amber
-                                        : Colors.grey.shade200,
+                                    color: snapshot.data!.contains(day) ? Colors.amber : Colors.grey.shade200,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Text(
                                     day.name[0],
                                     style: TextStyle(
-                                      color: snapshot.data!.contains(day)
-                                          ? Colors.white
-                                          : Colors.black,
+                                      color: snapshot.data!.contains(day) ? Colors.white : Colors.black,
                                     ),
                                   ),
                                 ),
