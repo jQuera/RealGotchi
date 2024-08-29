@@ -14,12 +14,18 @@ class RemindersOfDayRepository {
   Stream<List<Reminder>> get remindersOfDayStream => _remindersOfDayStream.stream;
 
   Future<void> init() async {
-    remindersOfDay = await remindersRepository.getRemindersOfDay(DateTime.now());
-    _remindersOfDayStream.add(remindersOfDay);
+    await getRemindersOfDay(DateTime.now());
   }
 
   Future<void> getRemindersOfDay(DateTime dateTime) async {
-    remindersOfDay = await remindersRepository.getRemindersOfDay(dateTime);
+    final allReminders = remindersRepository.readReminders();
+    remindersOfDay = allReminders.where((reminder) {
+      return reminder.date.year == dateTime.year &&
+          reminder.date.month == dateTime.month &&
+          reminder.date.day == dateTime.day;
+    }).toList();
+
+    remindersOfDay.sort((a, b) => a.date.compareTo(b.date));
     _remindersOfDayStream.add(remindersOfDay);
   }
 }

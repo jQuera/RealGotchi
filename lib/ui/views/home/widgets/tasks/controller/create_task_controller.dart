@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
+import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/task.dart';
-import 'package:myapp/ui/common/repository/tasks_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CreateTaskController {
@@ -13,16 +13,20 @@ class CreateTaskController {
   TextEditingController descriptionController = TextEditingController();
 
   TaskType taskTypeSelected = TaskType.salud;
-  final StreamController<TaskType> _taskTypeSelectedStream = BehaviorSubject.seeded(TaskType.salud);
+  final StreamController<TaskType> _taskTypeSelectedStream =
+      BehaviorSubject.seeded(TaskType.salud);
   Stream<TaskType> get taskTypeSelectedStream => _taskTypeSelectedStream.stream;
 
   TimeOfDay executionTime = TimeOfDay.now();
-  final StreamController<TimeOfDay> _executionTimeStream = BehaviorSubject.seeded(TimeOfDay.now());
+  final StreamController<TimeOfDay> _executionTimeStream =
+      BehaviorSubject.seeded(TimeOfDay.now());
   Stream<TimeOfDay> get executionTimeStream => _executionTimeStream.stream;
 
   List<DayOfWeek> daysOfExecution = [];
-  final StreamController<List<DayOfWeek>> _daysOfExecutionStream = BehaviorSubject.seeded([]);
-  Stream<List<DayOfWeek>> get daysOfExecutionStream => _daysOfExecutionStream.stream;
+  final StreamController<List<DayOfWeek>> _daysOfExecutionStream =
+      BehaviorSubject.seeded([]);
+  Stream<List<DayOfWeek>> get daysOfExecutionStream =>
+      _daysOfExecutionStream.stream;
 
   void init() {
     clear();
@@ -51,12 +55,16 @@ class CreateTaskController {
 
   Task getTask() {
     return Task(
+      title: descriptionController.text,
       description: descriptionController.text,
+      executionTime: DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        executionTime.hour,
+        executionTime.minute,
+      ),
       type: taskTypeSelected,
-      daysOfExecution: daysOfExecution,
-      hour: executionTime.format(MainController.instance.getCurrentState()!.context),
-      isActive: false,
-      uuid: DateTime.now().millisecondsSinceEpoch.toString(),
     );
   }
 

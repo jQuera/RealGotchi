@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
-import 'package:myapp/ui/common/repository/tasks_repository.dart';
+import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
 
 class CreateTaskPage extends StatelessWidget {
@@ -57,13 +57,16 @@ class CreateTaskPage extends StatelessWidget {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Colors.grey.shade400)),
+                          border: Border(
+                              bottom: BorderSide(color: Colors.grey.shade400)),
                         ),
                         padding: const EdgeInsets.all(8),
                         child: StreamBuilder<TimeOfDay>(
                             stream: controller.executionTimeStream,
                             builder: (context, snapshot) {
-                              if (snapshot.data == null) return const SizedBox.shrink();
+                              if (snapshot.data == null) {
+                                return const SizedBox.shrink();
+                              }
                               return Text(
                                 snapshot.data!.format(context),
                                 style: const TextStyle(
@@ -122,21 +125,27 @@ class CreateTaskPage extends StatelessWidget {
                                   } else {
                                     snapshot.data!.add(day);
                                   }
-                                  controller.changeDaysOfExecution(snapshot.data!);
+                                  controller
+                                      .changeDaysOfExecution(snapshot.data!);
                                 },
                                 child: Container(
                                   height: 30,
                                   width: 30,
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: snapshot.data!.contains(day) ? Colors.amber : Colors.grey.shade200,
+                                    color: snapshot.data!.contains(day)
+                                        ? Colors.amber
+                                        : Colors.grey.shade200,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Text(
                                     day.name[0],
                                     style: TextStyle(
-                                      color: snapshot.data!.contains(day) ? Colors.white : Colors.black,
+                                      color: snapshot.data!.contains(day)
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                 ),

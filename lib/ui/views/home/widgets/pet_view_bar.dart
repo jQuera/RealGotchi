@@ -7,73 +7,75 @@ class PetViewBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.blue,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-              //TODO: reactivar esta wea
-            // Container(
-            //   width: double.infinity,
-            //   color: Colors.red,
-            //   alignment: Alignment.bottomCenter,
-              // child: O3D.asset(
-              //   key: UniqueKey(),
-              //   src: 'assets/3d_models/toon_cat_free.glb',
-              //   controller: HomeController.instance.modelController,
-              //   backgroundColor: Colors.purple,
-              //   ar: false,
-              //   autoPlay: true,
-              //   autoRotate: false,
-              //   xrEnvironment: false,
-              //   touchAction: TouchAction.none,
-              //   cameraControls: true,
-              //   disablePan: true,
-              //   disableZoom: true,
-              // ),
+    return Container(
+      color: Colors.blue,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          //TODO: reactivar esta wea
+          Container(
+            width: double.infinity,
+            color: Colors.red,
+            alignment: Alignment.bottomCenter,
+            child: Placeholder(
+              fallbackHeight: 200,
+              fallbackWidth: 200,
+            ),
+            // child: O3D.asset(
+            //   key: UniqueKey(),
+            //   src: 'assets/3d_models/toon_cat_free.glb',
+            //   controller: HomeController.instance.modelController,
+            //   backgroundColor: Colors.purple,
+            //   ar: false,
+            //   autoPlay: true,
+            //   autoRotate: false,
+            //   xrEnvironment: false,
+            //   touchAction: TouchAction.none,
+            //   cameraControls: true,
+            //   disablePan: true,
+            //   disableZoom: true,
             // ),
-            const Positioned(
-              top: 30,
-              child: SafeArea(
-                child: Text(
-                  'Donita Barra',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
+          ),
+          const Positioned(
+            top: 30,
+            child: SafeArea(
+              child: Text(
+                'Donita Barra',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 24,
+            child: Container(
+              color: Colors.green,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+              child: const Column(
+                children: [
+                  Status(
+                    value: 50,
+                    color: Colors.red,
                   ),
-                ),
+                  Status(
+                    value: 75,
+                    color: Colors.amber,
+                  ),
+                  Status(
+                    value: 25,
+                    color: Colors.brown,
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              bottom: 10,
-              left: 24,
-              child: Container(
-                color: Colors.green,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                child: const Column(
-                  children: [
-                    Status(
-                      value: 50,
-                      color: Colors.red,
-                    ),
-                    Status(
-                      value: 75,
-                      color: Colors.amber,
-                    ),
-                    Status(
-                      value: 25,
-                      color: Colors.brown,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

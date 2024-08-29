@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:myapp/ui/common/repository/task.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:myapp/data/datasources/gotchi_local_datasource.dart';
 
 class TasksRepository {
   static final TasksRepository instance = TasksRepository._internal();
+  final RealGotchiLocalDatasource _localDatasource = RealGotchiLocalDatasource();
 
   TasksRepository._internal();
 
@@ -13,19 +16,28 @@ class TasksRepository {
   Stream<List<Task>> get tasksStream => _tasksStream.stream;
 
   Future<void> init() async {
+    await _localDatasource.initializeDB();
+    await _loadTasksFromLocalStorage();
     updateTaskStream();
+  }
+
+  Future<void> _loadTasksFromLocalStorage() async {
+    final taskMaps = await _localDatasource.getTasks();
+    _tasks = taskMaps.map((map) => Task.fromMap(map)).toList();
   }
 
   //crear un CRUD de tasks
 
   Future<bool> createTask(Task task) async {
     try {
+      final id = await _localDatasource.insertTask(task.toMap());
+      task = task.copyWith(id: id);
       _tasks.add(task);
       updateTaskStream();
       await RemindersRepository.instance.createRemindersFromTask(task);
-      return Future.value(true);
+      return true;
     } catch (e) {
-      return Future.value(false);
+      return false;
     }
   }
 
@@ -63,14 +75,4 @@ class TasksRepository {
   void updateTaskStream() {
     _tasksStream.add(_tasks);
   }
-}
-
-enum TaskType {
-  alimentacion(name: "Alimentación"),
-  higiene(name: "Higiene"),
-  salud(name: "Salud"),
-  entrenenimiento(name: "Entrenenimiento");
-
-  final String name;
-  const TaskType({required this.name});
 }
