@@ -1,7 +1,7 @@
 import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
 
-class Task {
+class TaskModel {
   final String id;
   final String title;
   final String description;
@@ -11,7 +11,7 @@ class Task {
   final DateTime updatedAt;
   final List<DayOfWeek> daysOfWeek;
 
-  Task({
+  TaskModel({
     required this.id,
     required this.title,
     required this.description,
@@ -35,8 +35,8 @@ class Task {
     };
   }
 
-  static Task fromMap(Map<String, dynamic> map) {
-    return Task(
+  static TaskModel fromMap(Map<String, dynamic> map) {
+    return TaskModel(
       id: map['id'] as String,
       title: map['title'] as String,
       description: map['description'] as String,
@@ -48,7 +48,7 @@ class Task {
     );
   }
 
-  Task copyWith({
+  TaskModel copyWith({
     String? id,
     String? title,
     String? description,
@@ -58,7 +58,7 @@ class Task {
     DateTime? updatedAt,
     List<DayOfWeek>? daysOfWeek,
   }) {
-    return Task(
+    return TaskModel(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,

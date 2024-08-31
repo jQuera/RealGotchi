@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:myapp/ui/common/models/reminder.dart';
+import 'package:myapp/ui/common/models/reminder_model.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
-import 'package:myapp/ui/common/repository/reminders_repository.dart';
-import 'package:myapp/ui/common/models/task.dart';
+import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/pages/create_task_page.dart';
@@ -24,7 +23,7 @@ class TasksBar extends StatelessWidget {
             onPressed: () async {
               try {
                 CreateTaskController.instance.init();
-                Task? newTask = await Navigator.of(context).push(
+                TaskModel? newTask = await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
                     return const CreateTaskPage();
                   }),
@@ -94,11 +93,10 @@ class TasksBar extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: StreamBuilder<List<Reminder>>(
+            child: StreamBuilder<List<ReminderModel>>(
               stream: RemindersOfDayRepository.instance.remindersOfDayStream,
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return const SizedBox.shrink();
-                if (snapshot.data!.isEmpty) {
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const Text(
                     "Aún no tienes recordatorios\nCrea uno en la esquina superior derecha",
                     textAlign: TextAlign.center,

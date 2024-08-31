@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/enums/task_type.dart';
-import 'package:myapp/ui/common/models/task.dart';
+import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
@@ -50,8 +50,8 @@ class CreateTaskController {
     _daysOfExecutionStream.add(daysOfExecution);
   }
 
-  Task getTask() {
-    return Task(
+  TaskModel getTask() {
+    return TaskModel(
       id: const Uuid().v4(),
       title: descriptionController.text,
       description: descriptionController.text,

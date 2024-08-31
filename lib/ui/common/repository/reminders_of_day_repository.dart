@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:myapp/ui/common/models/reminder.dart';
+import 'package:myapp/ui/common/models/reminder_model.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,9 +10,9 @@ class RemindersOfDayRepository {
 
   final RemindersRepository remindersRepository = RemindersRepository.instance;
 
-  List<Reminder> remindersOfDay = [];
-  final StreamController<List<Reminder>> _remindersOfDayStream = BehaviorSubject();
-  Stream<List<Reminder>> get remindersOfDayStream => _remindersOfDayStream.stream;
+  List<ReminderModel> remindersOfDay = [];
+  final StreamController<List<ReminderModel>> _remindersOfDayStream = BehaviorSubject();
+  Stream<List<ReminderModel>> get remindersOfDayStream => _remindersOfDayStream.stream;
 
   Future<void> init() async {
     await getRemindersOfDay(DateTime.now());

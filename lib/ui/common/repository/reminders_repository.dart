@@ -1,7 +1,7 @@
 import 'package:myapp/data/datasources/gotchi_local_datasource.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
-import 'package:myapp/ui/common/models/reminder.dart';
-import 'package:myapp/ui/common/models/task.dart';
+import 'package:myapp/ui/common/models/reminder_model.dart';
+import 'package:myapp/ui/common/models/task_model.dart';
 
 class RemindersRepository {
   static final RemindersRepository instance = RemindersRepository._internal();
@@ -9,7 +9,7 @@ class RemindersRepository {
 
   RemindersRepository._internal();
 
-  List<Reminder> _reminders = [];
+  List<ReminderModel> _reminders = [];
 
   Future<void> init() async {
     await _loadRemindersFromLocalStorage();
@@ -17,10 +17,10 @@ class RemindersRepository {
 
   Future<void> _loadRemindersFromLocalStorage() async {
     final reminderMaps = await _localDatasource.getReminders();
-    _reminders = reminderMaps.map((map) => Reminder.fromMap(map)).toList();
+    _reminders = reminderMaps.map((map) => ReminderModel.fromMap(map)).toList();
   }
 
-  Future<void> createRemindersFromTask(Task task) async {
+  Future<void> createRemindersFromTask(TaskModel task) async {
     var currentDate = DateTime.now();
     for (int i = 0; i < 7; i++) {
       DateTime nextDay = currentDate.add(Duration(days: i));
@@ -38,7 +38,7 @@ class RemindersRepository {
         bool reminderExist = _reminders.any((reminder) => reminder.date == newDate);
 
         if (!reminderExist && (newDate.isAfter(currentDate) || newDate.isAtSameMomentAs(currentDate))) {
-          Reminder newReminder = Reminder(
+          ReminderModel newReminder = ReminderModel(
             id: DateTime.now().toString(),
             description: task.description,
             date: newDate,
@@ -51,19 +51,19 @@ class RemindersRepository {
     }
   }
 
-  Future<void> createReminder(Reminder reminder) async {
+  Future<void> createReminder(ReminderModel reminder) async {
     await _localDatasource.insertReminder(reminder.toMap());
     _reminders.add(reminder);
   }
 
-  Future<List<Reminder>> readReminders() async {
+  Future<List<ReminderModel>> readReminders() async {
     if (_reminders.isEmpty) {
       await _loadRemindersFromLocalStorage();
     }
     return _reminders;
   }
 
-  Future<void> updateReminder(Reminder reminder) async {
+  Future<void> updateReminder(ReminderModel reminder) async {
     await _localDatasource.updateReminder(reminder.toMap());
     int index = _reminders.indexWhere((r) => r.id == reminder.id);
     if (index != -1) {
@@ -71,7 +71,7 @@ class RemindersRepository {
     }
   }
 
-  Future<void> deleteReminder(Reminder reminder) async {
+  Future<void> deleteReminder(ReminderModel reminder) async {
     await _localDatasource.deleteReminder(reminder.id);
     _reminders.removeWhere((r) => r.id == reminder.id);
   }

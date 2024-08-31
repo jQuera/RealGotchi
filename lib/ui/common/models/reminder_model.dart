@@ -1,11 +1,11 @@
-class Reminder {
+class ReminderModel {
   final String id;
   final String description;
   final DateTime date;
   final bool isActive;
   final bool isCompleted;
 
-  Reminder({
+  ReminderModel({
     required this.id,
     required this.description,
     required this.date,
@@ -23,8 +23,8 @@ class Reminder {
     };
   }
 
-  factory Reminder.fromMap(Map<String, dynamic> map) {
-    return Reminder(
+  factory ReminderModel.fromMap(Map<String, dynamic> map) {
+    return ReminderModel(
       id: map['id'],
       description: map['description'],
       date: DateTime.parse(map['date']),
