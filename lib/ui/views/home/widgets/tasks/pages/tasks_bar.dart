@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/ui/common/models/reminder.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
-import 'package:myapp/ui/common/repository/task.dart';
+import 'package:myapp/ui/common/models/task.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/pages/create_task_page.dart';

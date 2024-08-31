@@ -1,6 +1,7 @@
 import 'package:myapp/data/datasources/gotchi_local_datasource.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
-import 'package:myapp/ui/common/repository/task.dart';
+import 'package:myapp/ui/common/models/reminder.dart';
+import 'package:myapp/ui/common/models/task.dart';
 
 class RemindersRepository {
   static final RemindersRepository instance = RemindersRepository._internal();
@@ -73,41 +74,5 @@ class RemindersRepository {
   Future<void> deleteReminder(Reminder reminder) async {
     await _localDatasource.deleteReminder(reminder.id);
     _reminders.removeWhere((r) => r.id == reminder.id);
-  }
-}
-
-class Reminder {
-  final String id;
-  final String description;
-  final DateTime date;
-  final bool isActive;
-  final bool isCompleted;
-
-  Reminder({
-    required this.id,
-    required this.description,
-    required this.date,
-    required this.isActive,
-    required this.isCompleted,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'description': description,
-      'date': date.toIso8601String(),
-      'isActive': isActive ? 1 : 0,
-      'isCompleted': isCompleted ? 1 : 0,
-    };
-  }
-
-  factory Reminder.fromMap(Map<String, dynamic> map) {
-    return Reminder(
-      id: map['id'],
-      description: map['description'],
-      date: DateTime.parse(map['date']),
-      isActive: map['isActive'] == 1,
-      isCompleted: map['isCompleted'] == 1,
-    );
   }
 }

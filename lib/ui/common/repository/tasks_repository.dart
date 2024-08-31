@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/enums/task_type.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
-import 'package:myapp/ui/common/repository/task.dart';
+import 'package:myapp/ui/common/models/task.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:myapp/data/datasources/gotchi_local_datasource.dart';
 
