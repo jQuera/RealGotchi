@@ -39,18 +39,25 @@ class HomeController {
   }
 
   void nextDay() {
+    refreshNowDate();
     currentDay = currentDay.add(const Duration(days: 1));
     _currentDayStream.add(currentDay);
     RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
   }
 
   void previousDay() {
+    refreshNowDate();
     currentDay = currentDay.subtract(const Duration(days: 1));
     _currentDayStream.add(currentDay);
     RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
   }
 
   void getRemindersOfDay() {
+    refreshNowDate();
     RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
+  }
+
+  void refreshNowDate() {
+    currentDay = DateTime.now();
   }
 }
