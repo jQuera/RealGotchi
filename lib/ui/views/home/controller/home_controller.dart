@@ -21,7 +21,7 @@ class HomeController {
   final StreamController<int> _currentPageStream = BehaviorSubject.seeded(1);
   Stream<int> get currentPageStream => _currentPageStream.stream;
 
-  DateTime currentDay = DateTime.now();
+  DateTime selectedDay = DateTime.now();
   final StreamController<DateTime> _currentDayStream = BehaviorSubject.seeded(DateTime.now());
   Stream<DateTime> get currentDayStream => _currentDayStream.stream;
 
@@ -39,25 +39,18 @@ class HomeController {
   }
 
   void nextDay() {
-    refreshNowDate();
-    currentDay = currentDay.add(const Duration(days: 1));
-    _currentDayStream.add(currentDay);
-    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
+    selectedDay = selectedDay.add(const Duration(days: 1));
+    _currentDayStream.add(selectedDay);
+    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
   }
 
   void previousDay() {
-    refreshNowDate();
-    currentDay = currentDay.subtract(const Duration(days: 1));
-    _currentDayStream.add(currentDay);
-    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
+    selectedDay = selectedDay.subtract(const Duration(days: 1));
+    _currentDayStream.add(selectedDay);
+    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
   }
 
   void getRemindersOfDay() {
-    refreshNowDate();
-    RemindersOfDayRepository.instance.getRemindersOfDay(currentDay);
-  }
-
-  void refreshNowDate() {
-    currentDay = DateTime.now();
+    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
   }
 }
