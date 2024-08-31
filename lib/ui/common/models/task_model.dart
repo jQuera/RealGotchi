@@ -31,20 +31,20 @@ class TaskModel {
       'type': type.index,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
-      'daysOfWeek': daysOfWeek.map((day) => day.index).toList(),
+      'daysOfWeek': daysOfWeek.map((day) => day.index).join(','),
     };
   }
 
   static TaskModel fromMap(Map<String, dynamic> map) {
     return TaskModel(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      executionTime: DateTime.parse(map['executionTime'] as String),
-      type: TaskType.values[map['type'] as int],
-      createdAt: DateTime.parse(map['createdAt'] as String),
-      updatedAt: DateTime.parse(map['updatedAt'] as String),
-      daysOfWeek: (map['daysOfWeek'] as List<dynamic>).map((day) => DayOfWeek.values[day as int]).toList(),
+      id: map['id'].toString(),
+      title: map['title'].toString(),
+      description: map['description'].toString(),
+      executionTime: DateTime.parse(map['executionTime'].toString()),
+      type: TaskType.values[int.parse(map['type'].toString())],
+      createdAt: DateTime.parse(map['createdAt'].toString()),
+      updatedAt: DateTime.parse(map['updatedAt'].toString()),
+      daysOfWeek: map['daysOfWeek'].toString().split(',').map((day) => DayOfWeek.values[int.parse(day)]).toList(),
     );
   }
 
