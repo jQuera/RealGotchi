@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
+import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
 import 'package:myapp/ui/common/repository/tasks_repository.dart';
@@ -52,5 +53,9 @@ class HomeController {
 
   void getRemindersOfDay() {
     RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
+  }
+
+  void editTask(TaskModel task) {
+    tasksRepository.updateTask(task);
   }
 }

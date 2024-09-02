@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/enums/day_of_week.dart';
 import 'package:myapp/ui/common/enums/task_type.dart';
-import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/controller/edit_task_controller.dart';
 
-class CreateTaskPage extends StatelessWidget {
-  const CreateTaskPage({super.key});
+class EditTaskPage extends StatelessWidget {
+  const EditTaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final CreateTaskController controller = CreateTaskController.instance;
+    final EditTaskController controller = EditTaskController.instance;
     return Scaffold(
       resizeToAvoidBottomInset: false, // Esta línea evita que el contenido se reajuste cuando el teclado aparece
       appBar: AppBar(
-        title: const Text("Nueva tarea"),
+        title: Text(controller.isNewTask ? "Nueva tarea" : "Editar tarea"),
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -158,7 +158,7 @@ class CreateTaskPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    controller.createTask();
+                    controller.saveTask();
                   },
                   child: const Text("Crear tarea"),
                 ),

@@ -4,6 +4,7 @@ class ReminderModel {
   final DateTime date;
   final bool isActive;
   final bool isCompleted;
+  final String taskId;
 
   ReminderModel({
     required this.id,
@@ -11,6 +12,7 @@ class ReminderModel {
     required this.date,
     required this.isActive,
     required this.isCompleted,
+    required this.taskId,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class ReminderModel {
       'date': date.toIso8601String(),
       'isActive': isActive ? 1 : 0,
       'isCompleted': isCompleted ? 1 : 0,
+      'taskId': taskId,
     };
   }
 
@@ -30,6 +33,7 @@ class ReminderModel {
       date: DateTime.parse(map['date']),
       isActive: map['isActive'] == 1,
       isCompleted: map['isCompleted'] == 1,
+      taskId: map['taskId'],
     );
   }
 }

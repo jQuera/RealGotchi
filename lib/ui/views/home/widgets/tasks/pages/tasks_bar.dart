@@ -4,8 +4,8 @@ import 'package:myapp/ui/common/models/reminder_model.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
-import 'package:myapp/ui/views/home/widgets/tasks/controller/create_task_controller.dart';
-import 'package:myapp/ui/views/home/widgets/tasks/pages/create_task_page.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/controller/edit_task_controller.dart';
+import 'package:myapp/ui/views/home/widgets/tasks/pages/edit_task_page.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/widgets/reminder_widget.dart';
 
 class TasksBar extends StatelessWidget {
@@ -22,10 +22,10 @@ class TasksBar extends StatelessWidget {
           IconButton(
             onPressed: () async {
               try {
-                CreateTaskController.instance.init();
+                EditTaskController.instance.init();
                 TaskModel? newTask = await Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return const CreateTaskPage();
+                    return const EditTaskPage();
                   }),
                 );
                 if (newTask == null) {

@@ -44,6 +44,7 @@ class RemindersRepository {
             date: newDate,
             isActive: true,
             isCompleted: false,
+            taskId: task.id,
           );
           await createReminder(newReminder);
         }

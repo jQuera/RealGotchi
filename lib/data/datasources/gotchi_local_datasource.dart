@@ -39,7 +39,8 @@ class RealGotchiLocalDatasource {
             "description TEXT NOT NULL,"
             "date TEXT NOT NULL,"
             "isCompleted INTEGER NOT NULL,"
-            "isActive INTEGER NOT NULL"
+            "isActive INTEGER NOT NULL,"
+            "taskId TEXT NOT NULL" // Agregamos la columna taskId
             ")");
       },
       onUpgrade: (db, oldVersion, newVersion) async {
@@ -49,8 +50,11 @@ class RealGotchiLocalDatasource {
         if (oldVersion < 4) {
           await db.execute("ALTER TABLE tasks ADD COLUMN daysOfWeek TEXT NOT NULL DEFAULT ''");
         }
+        if (oldVersion < 5) {
+          await db.execute("ALTER TABLE reminders ADD COLUMN taskId TEXT NOT NULL DEFAULT ''");
+        }
       },
-      version: 4, // Aumentamos la versión de la base de datos
+      version: 5, // Aumentamos la versión de la base de datos
     );
   }
 

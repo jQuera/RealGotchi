@@ -8,8 +8,8 @@ import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
-class CreateTaskController {
-  static final CreateTaskController instance = CreateTaskController();
+class EditTaskController {
+  static final EditTaskController instance = EditTaskController();
 
   TextEditingController descriptionController = TextEditingController();
 
@@ -25,14 +25,35 @@ class CreateTaskController {
   final StreamController<List<DayOfWeek>> _daysOfExecutionStream = BehaviorSubject.seeded([]);
   Stream<List<DayOfWeek>> get daysOfExecutionStream => _daysOfExecutionStream.stream;
 
-  void init() {
-    clear();
+  TaskModel? _currentTask;
+  bool isNewTask = true;
+
+  void init({TaskModel? task}) {
+    if (task == null) {
+      clear();
+      return;
+    }
+    _currentTask = task;
+    isNewTask = false;
+    descriptionController.text = task.description;
+    taskTypeSelected = task.type;
+    executionTime = TimeOfDay(hour: task.executionTime.hour, minute: task.executionTime.minute);
+    daysOfExecution = task.daysOfWeek;
+    _taskTypeSelectedStream.add(taskTypeSelected);
+    _executionTimeStream.add(executionTime);
+    _daysOfExecutionStream.add(daysOfExecution);
   }
 
   void clear() {
     descriptionController.clear();
     taskTypeSelected = TaskType.salud;
     executionTime = TimeOfDay.now();
+    daysOfExecution = [];
+    _currentTask = null;
+    isNewTask = true;
+    _taskTypeSelectedStream.add(taskTypeSelected);
+    _executionTimeStream.add(executionTime);
+    _daysOfExecutionStream.add(daysOfExecution);
   }
 
   void changeTaskType(TaskType type) {
@@ -52,7 +73,7 @@ class CreateTaskController {
 
   TaskModel getTask() {
     return TaskModel(
-      id: const Uuid().v4(),
+      id: _currentTask?.id ?? const Uuid().v4(),
       title: descriptionController.text,
       description: descriptionController.text,
       executionTime: DateTime(
@@ -63,13 +84,13 @@ class CreateTaskController {
         executionTime.minute,
       ),
       type: taskTypeSelected,
-      createdAt: DateTime.now(),
+      createdAt: _currentTask?.createdAt ?? DateTime.now(),
       updatedAt: DateTime.now(),
       daysOfWeek: daysOfExecution,
     );
   }
 
-  void createTask() {
+  void saveTask() {
     MainController.instance.getCurrentState()!.pop(getTask());
   }
 }
