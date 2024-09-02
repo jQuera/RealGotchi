@@ -3,13 +3,13 @@ import 'package:myapp/ui/common/enums/day_of_week.dart';
 
 class TaskModel {
   final String id;
-  final String title;
-  final String description;
-  final DateTime executionTime;
-  final TaskType type;
+  String title;
+  String description;
+  DateTime executionTime;
+  TaskType type;
   final DateTime createdAt;
-  final DateTime updatedAt;
-  final List<DayOfWeek> daysOfWeek;
+  DateTime updatedAt;
+  List<DayOfWeek> daysOfWeek;
 
   TaskModel({
     required this.id,

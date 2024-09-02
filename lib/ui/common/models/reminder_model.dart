@@ -1,9 +1,9 @@
 class ReminderModel {
   final String id;
-  final String description;
-  final DateTime date;
-  final bool isActive;
-  final bool isCompleted;
+  String description;
+  DateTime date;
+  bool isActive;
+  bool isCompleted;
   final String taskId;
 
   ReminderModel({

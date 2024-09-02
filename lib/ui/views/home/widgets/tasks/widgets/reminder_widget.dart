@@ -6,11 +6,13 @@ class ReminderWidget extends StatelessWidget {
     required this.description,
     required this.time,
     required this.completed,
+    required this.onChangedStatus,
   });
 
   final String description;
   final String time;
   final bool completed;
+  final ValueChanged<bool> onChangedStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,11 @@ class ReminderWidget extends StatelessWidget {
         Row(
           children: [
             Checkbox(
-              value: false,
-              onChanged: (value) {},
+              value: completed,
+              onChanged: (value) {
+                if (value == null) return;
+                onChangedStatus(value);
+              },
             ),
             Text(description),
           ],

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/ui/common/controllers/main_controller.dart';
+import 'package:myapp/ui/common/models/reminder_model.dart';
 import 'package:myapp/ui/common/models/task_model.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/repository/reminders_repository.dart';
@@ -42,20 +43,24 @@ class HomeController {
   void nextDay() {
     selectedDay = selectedDay.add(const Duration(days: 1));
     _currentDayStream.add(selectedDay);
-    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
+    remindersOfDayRepository.getRemindersOfDay(selectedDay);
   }
 
   void previousDay() {
     selectedDay = selectedDay.subtract(const Duration(days: 1));
     _currentDayStream.add(selectedDay);
-    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
+    remindersOfDayRepository.getRemindersOfDay(selectedDay);
   }
 
   void getRemindersOfDay() {
-    RemindersOfDayRepository.instance.getRemindersOfDay(selectedDay);
+    remindersOfDayRepository.getRemindersOfDay(selectedDay);
   }
 
-  void editTask(TaskModel task) {
-    tasksRepository.updateTask(task);
+  void updateReminder(ReminderModel reminder) {
+    remindersOfDayRepository.updateReminder(reminder);
+  }
+
+  void updateTask(TaskModel updatedTask) {
+    tasksRepository.updateTask(updatedTask);
   }
 }

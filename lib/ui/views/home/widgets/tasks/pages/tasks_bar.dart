@@ -106,10 +106,15 @@ class TasksBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(12, 15, 12, 24),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
+                    var reminderData = snapshot.data![index];
                     return ReminderWidget(
-                      description: snapshot.data![index].description,
-                      time: DateFormat('HH:mm').format(snapshot.data![index].date),
-                      completed: snapshot.data![index].isCompleted,
+                      description: reminderData.description,
+                      time: DateFormat('HH:mm').format(reminderData.date),
+                      completed: reminderData.isCompleted,
+                      onChangedStatus: (value) {
+                        reminderData.isCompleted = value;
+                        controller.updateReminder(reminderData);
+                      },
                     );
                   },
                 );

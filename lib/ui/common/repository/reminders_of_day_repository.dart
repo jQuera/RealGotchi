@@ -29,4 +29,17 @@ class RemindersOfDayRepository {
     remindersOfDay.sort((a, b) => a.date.compareTo(b.date));
     _remindersOfDayStream.add(remindersOfDay);
   }
+
+  ReminderModel getReminderById(String id) {
+    return remindersOfDay.firstWhere((reminder) => reminder.id == id);
+  }
+
+  Future<void> updateReminder(ReminderModel reminder) async {
+    await remindersRepository.updateReminder(reminder);
+    int index = remindersOfDay.indexWhere((r) => r.id == reminder.id);
+    if (index != -1) {
+      remindersOfDay[index] = reminder;
+    }
+    _remindersOfDayStream.add(remindersOfDay);
+  }
 }

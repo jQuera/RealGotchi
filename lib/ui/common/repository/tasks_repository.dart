@@ -55,7 +55,7 @@ class TasksRepository {
 
   Future<bool> updateTask(TaskModel task) {
     try {
-      _tasks.where((element) => element.description == task.description);
+      _tasks.where((element) => element.id == task.id);
       _tasks.add(task);
       updateTaskStream();
       return Future.value(true);
@@ -66,7 +66,7 @@ class TasksRepository {
 
   Future<bool> deleteTask(TaskModel task) {
     try {
-      _tasks.removeWhere((element) => element.description == task.description);
+      _tasks.removeWhere((element) => element.id == task.id);
       updateTaskStream();
       return Future.value(true);
     } catch (e) {
