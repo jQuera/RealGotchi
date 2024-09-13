@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/ui/common/extensions/string_extensions.dart';
 import 'package:myapp/ui/common/models/reminder_model.dart';
 import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/common/models/task_model.dart';
@@ -58,23 +59,20 @@ class TasksBar extends StatelessWidget {
                 StreamBuilder<DateTime>(
                     stream: controller.currentDayStream,
                     builder: (context, snapshot) {
-                      //Por corregir, no esta tomando bien el dia de la semana desde el sistema
                       if (!snapshot.hasData) return const SizedBox.shrink();
-                      debugPrint("snapshot: ${snapshot.data!.day}");
-                      debugPrint("today: ${DateTime.now().day}");
                       return Column(
                         children: [
                           Text(
                             snapshot.data!.day == DateTime.now().day
                                 ? "Hoy"
-                                : DateFormat('EEEE').format(snapshot.data!),
+                                : DateFormat('EEEE').format(snapshot.data!).toTitleCase(),
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            DateFormat('dd - MMMM').format(snapshot.data!),
+                            DateFormat('dd - MMMM').format(snapshot.data!).toTitleCase(),
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,

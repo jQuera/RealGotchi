@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/ui/common/models/reminder_model.dart';
+import 'package:myapp/ui/common/repository/reminders_of_day_repository.dart';
 import 'package:myapp/ui/views/home/controller/home_controller.dart';
 import 'package:myapp/ui/views/home/widgets/pet_view_bar.dart';
-import 'package:myapp/ui/views/home/widgets/status/pages/status_bar.dart';
+// import 'package:myapp/ui/views/home/widgets/status/pages/status_bar.dart';
 import 'package:myapp/ui/views/home/widgets/tasks/pages/tasks_bar.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,13 +22,13 @@ class HomePage extends StatelessWidget {
               },
               selectedIndex: snapshot.data!,
               backgroundColor: Colors.amber,
-              destinations: const <Widget>[
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.health_and_safety_rounded),
-                  icon: Badge(child: Icon(Icons.health_and_safety_rounded)),
-                  label: 'Status',
-                ),
-                NavigationDestination(
+              destinations: <Widget>[
+                // const NavigationDestination(
+                //   selectedIcon: Icon(Icons.health_and_safety_rounded),
+                //   icon: Icon(Icons.health_and_safety_rounded),
+                //   label: 'Status',
+                // ),
+                const NavigationDestination(
                   selectedIcon: Icon(
                     Icons.pets_rounded,
                   ),
@@ -36,10 +38,17 @@ class HomePage extends StatelessWidget {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Badge(
-                    label: Text('2'),
-                    child: Icon(Icons.pending_actions_rounded),
-                  ),
+                  icon: StreamBuilder<List<ReminderModel>>(
+                      stream: RemindersOfDayRepository.instance.remindersOfDayStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox.shrink();
+                        bool hasPendingReminder = snapshot.data!.any((reminder) =>
+                            reminder.date.isBefore(DateTime.now()) && !reminder.isCompleted && reminder.isActive);
+                        return Badge(
+                          isLabelVisible: hasPendingReminder,
+                          child: const Icon(Icons.pending_actions_rounded),
+                        );
+                      }),
                   label: 'Tareas',
                 ),
               ],
@@ -50,7 +59,7 @@ class HomePage extends StatelessWidget {
           builder: (context, snapshot) {
             if (!snapshot.hasData) return const SizedBox.shrink();
             return <Widget>[
-              const StatusBar(),
+              // const StatusBar(),
               const PetViewBar(),
               const TasksBar(),
             ][snapshot.data!];

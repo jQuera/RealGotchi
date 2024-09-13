@@ -62,5 +62,11 @@ class HomeController {
 
   void updateTask(TaskModel updatedTask) {
     tasksRepository.updateTask(updatedTask);
+    
+  }
+
+  bool remindersOverextended() {
+    return remindersOfDayRepository.remindersOfDay
+        .any((reminder) => reminder.date.isBefore(DateTime.now()) && !reminder.isCompleted && reminder.isActive);
   }
 }
