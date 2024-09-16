@@ -41,9 +41,11 @@ class HomePage extends StatelessWidget {
                   icon: StreamBuilder<List<ReminderModel>>(
                       stream: RemindersOfDayRepository.instance.remindersOfDayStream,
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox.shrink();
-                        bool hasPendingReminder = snapshot.data!.any((reminder) =>
-                            reminder.date.isBefore(DateTime.now()) && !reminder.isCompleted && reminder.isActive);
+                        bool hasPendingReminder = false;
+                        if (snapshot.hasData) {
+                          hasPendingReminder = snapshot.data!.any((reminder) =>
+                              reminder.date.isBefore(DateTime.now()) && !reminder.isCompleted && reminder.isActive);
+                        }
                         return Badge(
                           isLabelVisible: hasPendingReminder,
                           child: const Icon(Icons.pending_actions_rounded),
